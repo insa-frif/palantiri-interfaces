@@ -1,99 +1,70 @@
+import {ContactAccount} from "./contact-account";
 import * as Bluebird from "bluebird";
 
-import {Contact} from "./interfaces/contact";
-import {ContactAccount} from "./interfaces/contact-account";
+/***************************************************************
+ * Contact is the representation of someone you can chat with.
+ * A contact may be the same for differents accounts. That's why
+ * it contains a list of accounts : those were the contact is
+ * identified as the same as in the others.
+ * The only way to tchat with someone is to start a discussion
+ * with him. Other participants could be added through the
+ * interface Discussion.
+ ***************************************************************/
+export interface Contact{
+  accounts: ContactAccount[]; //  La liste des comptes connus de l'utilisateur
+                              //  pour lesquels ce contact est le meme.
 
-export class OChatContact implements Contact {
-  fullname: string;
+  fullname: string;           //  Le nom complet du contact.
 
-  nicknames: string[];
+  nicknames: string[];        //  Les noms sous lesquels le contact est connu.
+                              //  Ne contient que les noms present pour les
+                              //  differents comptes connus.
 
-  accounts: ContactAccount[];
+  getAccounts(): Bluebird.Thenable<ContactAccount[]>;
+  //  Retourne la liste des comptes connus de l'utilisateur
+  //  pour lesquels ce contact est le meme.
 
-  getAccounts(): Bluebird<ContactAccount[]> {
-    return Bluebird.resolve(this.accounts);
-  }
+  getNicknames(): string[];
+  //  Retourne la liste des surnoms connus du contact courant.
 
-  getNicknames(): string[] {
-    return this.nicknames;
-  }
+  getPrincipalName(): string;
+  //  Retourne la valeur du champ fullname.
 
-  getPrincipalName(): string {
-    return this.fullname;
-  }
+  setPrincipalName(newPrincipalName: string): void;
+  //  Met a jour le champ "fullname" du contact courant.
+  //  Ne modifie pas nicknames.
 
-  setPrincipalName(newPrincipalName: string): void {
-    this.fullname = newPrincipalName;
-  }
+  mergeContacts(contact: Contact, callback?: (err: Error, succes: Contact) => any): Contact;
+  // Fusionne les comptes du contact courant avec ceux du contact fourni.
+  // La gestion du contact fourni apres cette methode est a la charge de l'appelant.
+  // Retourne le contact courrant apres eventuelles modifications.
 
-  mergeContacts(contact: Contact, callback?: (err: Error, succes: Contact) => any): Contact {
-    let error: Error = null;
-    let numberOfErrors: number = 0;
-    for(let contactAccount of contact.accounts) {
-      this.addAccount(contactAccount, (err, acc) => {
-        if(err) {
-          numberOfErrors++;
-        }
-      });
-    }
-    if(numberOfErrors === contact.accounts.length) {
-      error = new Error("Unable to merge contact. Maybe the second was part of the current.");
-    } else if(numberOfErrors !== 0) {
-      error = new Error(numberOfErrors + " account of the contact in parameters could not be added to the current contact.");
-    }
-    if(callback) {
-      callback(error, this);
-    }
-    return this;
-  }
+  unmergeContacts(contact: Contact, callback?: (err: Error, succes: Contact) => any): Contact;
+  // Defusionne les comptes du contact courant afin de former deux contacts :
+  // Le contact fourni.
+  // Le contact courant MINUS le contact fourni.
+  // Ne fait rien si l'operation unmerge est impossible
+  // (i.e. l'un des deux contacts ressultant est nul, ou si "contact" ne fait pas
+  // partie du contact courant).
+  // La gestion du contact fourni apres cette methode est a la charge de l'appelant.
+  // Retourne le contact courrant apres eventuelles modifications.
 
-  unmergeContacts(contact: Contact, callback?: (err: Error, succes: Contact) => any): Contact {
-    let error: Error = null;
-    for(let contactAccount of contact.accounts) {
-      this.removeAccount(contactAccount, (err, acc) => {
-        if(err) {
-          error = new Error("Unable to unmerge contact. One account in the parameters is not part of the current Contact.");
-        }
-      });
-      if(error)
-      {
-        break;
-      }
-    }
-    if(callback) {
-      callback(error, this);
-    }
-    return this;
-  }
+  addAccount(account: ContactAccount, callback? : (err: Error, succes: ContactAccount[]) => any): void;
+  // Ajoute un compte au contact courant.
+  // Cette operation est differente de mergeContacts() dans le sens ou
+  // on rajoute un compte d'un certain type a un contact, mais que ce
+  // compte n'etait pas connu a travers les comptes de l'tilisateur
+  // connecte. C'est une operation "manuelle".
+  // Lorsque cela est possible, ce contact va etre rajoute a la liste des
+  // contact sur un des comptes de l'utilisateur. L'utilisateur aura donc
+  // acces a ce contact par la suite meme sans passer par OmniChat.
+  // Cette operation necessite que l'utilisateur se serve d'un client qui
+  // supporte le protocole utilise par le compte "account".
 
-  addAccount(account: ContactAccount, callback? : (err: Error, succes: ContactAccount[]) => any): void {
-    let index: number = this.accounts.indexOf(account);
-    let err: Error = null;
-    if(index === -1) {
-      this.nicknames.push(account.contactName);
-      if(!this.fullname) {
-        this.fullname = account.contactName;
-      }
-      this.accounts.push(account);
-    } else {
-      err = new Error("This account already exists for this contact.");
-    }
-    if(callback) {
-      callback(err, this.accounts);
-    }
-  }
-
-  removeAccount(account: ContactAccount, callback? : (err: Error, succes: ContactAccount[]) => any): void {
-    let index: number = this.accounts.indexOf(account);
-    let err: Error = null;
-    if(index === -1) {
-      this.accounts.splice(0, 1, account);
-      this.nicknames.splice(0, 1, account.contactName);
-    } else {
-      err = new Error("This account does not exist for this contact.");
-    }
-    if(callback) {
-      callback(err, this.accounts);
-    }
-  }
+  removeAccount(account: ContactAccount, callback? : (err: Error, succes: ContactAccount[]) => any): void;
+  // Supprime un compte du contact courant.
+  // Cette operation est differente de mergeContacts() dans le sens ou
+  // on supprime un compte d'un certain type a un contact, mais que ce
+  // contact reste le meme.
+  // Exemple d'utilisation : un compte que le contact n'utilise plus.
 }

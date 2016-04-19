@@ -1,76 +1,41 @@
 import * as Bluebird from "bluebird";
+import {Proxy} from "./proxy";
+import {User} from "./user";
 
-import {User} from "./interfaces/user";
-import {Proxy} from "./interfaces/proxy";
-import {App} from "./interfaces/app";
+/***************************************************************
+ * App is the entry point for the library.
+ * Maintains the list of available proxies and connected users.
+ ***************************************************************/
+export interface App {
+  drivers: Proxy[];   // Available proxies for this app
 
-export class OChatApp implements App {
-  drivers: Proxy[] = [];  // All drivers supported by the app
+  users: User[];      // Currently connected users for this app
 
-  users: User[];          // All users connected to this client
+  getProxyFor(protocol: string): Bluebird.Thenable<Proxy>;
+  //  Retourne le premier proxy permettant d'utiliser
+  //  le protocole "protocol".
 
-  getProxyFor(protocol: string): Bluebird<Proxy> {
-    for(let i=0; i<this.drivers.length; i++){
-      if(this.drivers[i].isCompatibleWith(protocol)){
-        return Bluebird.resolve(this.drivers[i]);
-      }
-    }
-  }
+  addDriver(driver: Proxy, callback?: (err: Error, drivers: Proxy[]) => any): App;
+  //  Ajoute le proxy "driver" a la liste des drivers supportes
+  //  par cette App, si l'App ne possede pas deja un proxy
+  //  qui gere le meme protocole que "driver".
+  //  Sinon, err sera non nul.
 
-  addDriver(driver: Proxy, callback?: (err: Error, drivers: Proxy[]) => any): OChatApp {
-    let err: Error = null;
-    for(let prox of this.drivers) {
-      if(prox.isCompatibleWith(driver.protocol)) {
-        err = new Error("This app already has a compatible protocol");
-      }
-    }
-    if(!err) {
-      this.drivers.push(driver);
-    }
-    if(callback) {
-      callback(err, this.drivers);
-    }
-    return this;
-  }
+  removeDriversFor(protocol: string, callback?: (err: Error, drivers: Proxy[]) => any): App;
+  //  Supprime tout les drivers connus de l'App qui supportent
+  //  le protocole "protocol".
+  //  Ne fait rien si aucun des drivers connus ne supporte
+  //  le protocole "protocol". Dans ce cas, err sera non nul.
 
-  removeDriversFor(protocol: string, callback?: (err: Error, drivers: Proxy[]) => any): OChatApp {
-    let err = new Error("This app does not support protocol " + protocol);
-    for(let index: number = 0; index<this.drivers.length; index++) {
-      let prox = this.drivers[index];
-      if(prox.isCompatibleWith(protocol)) {
-        err = null;
-        this.drivers.splice(index, 1);
-      }
-    }
-    if(callback) {
-      callback(err, this.drivers);
-    }
-    return this;
-  }
+  addUser(user: User, callback?: (err: Error, users: User[]) => any): App;
+  //  Ajoute l'utilisateur "user" a la liste des utilisateurs
+  //  qui utilisent l'App courante, si "user" ne fait pas
+  //  deja partie de ceux qui utilisent cette App.
+  //  Sinon, err sera non nul.
 
-  addUser(user: User, callback?: (err: Error, users: User[]) => any): OChatApp {
-    let err: Error = null;
-    if(this.users.indexOf(user) === -1) {
-      err = new Error("This user is already connected to this client.");
-    } else {
-      this.users.push(user);
-    }
-    if(callback) {
-      callback(err, this.users);
-    }
-    return this;
-  }
-
-  removeUser(user: User, callback?: (err: Error, users: User[]) => any): OChatApp {
-    let err: Error = null;
-    if(this.users.indexOf(user) === -1) {
-      err = new Error("This user was not connected to this client.");
-    } else {
-      this.users.splice(0, 1, user);
-    }
-    if(callback) {
-      callback(err, this.users);
-    }
-    return this;
-  }
+  removeUser(user: User, callback?: (err: Error, users: User[]) => any): App;
+  //  Supprime l'utilisateur "user" de la liste des utilisateurs
+  //  qui utilise l'App courante, si "user" faisait deja
+  //  partie de la liste.
+  //  Sinon, ne fait rien , et err sera non nul.
 }

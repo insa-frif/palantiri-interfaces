@@ -1,135 +1,85 @@
 import * as Bluebird from "bluebird";
+import {GroupAccount} from "./group-account";
+import {User} from "./user";
+import {Message} from "./message";
+import {ContactAccount} from "./contact-account";
+import {Dictionary} from "./utils";
 
-import {User} from "./interfaces/user";
-import {Discussion} from "./interfaces/discussion";
-import {ContactAccount} from "./interfaces/contact-account";
-import {GroupAccount} from "./interfaces/group-account";
-import {Message} from "./interfaces/message";
-import {Dictionary} from "./interfaces/utils";
+/***************************************************************
+ * Discussion is the only thing you can use to chat with someone.
+ * It provides you methods to send a message, do something when
+ * you receive a message and so on.
+ ***************************************************************/
+export interface Discussion {
+  creationDate: Date;             // Date de creation de la conversation
 
-export class OChatDiscussion implements Discussion {
-  creationDate: Date;
+  name: string;                   // Nom de la conversation
 
-  name: string;
+  description: string;            // Une description brève de la discussion,
+                                  // sous forme textuelle.
 
-  isPrivate: boolean;
+  heterogeneous: boolean;         // Est vrai si la discussion est heterogene,
+                                  // c'est-a-dire composee de plusieurs participants
+                                  // utilisant des protocoles differents.
 
-  heterogeneous: boolean;
+  isPrivate: boolean;             // Privacite de la conversation
 
-  description: string;
+  participants: GroupAccount[];   // Liste des participants a la conversation.
+                                  // L'utilisateur n'en fait pas partie.
 
-  participants: GroupAccount[];
+  owner: User;                    // L'utilisateur d'Omni-Chat qui utilise
+                                  // cette discussion.
 
-  owner: User;
+  settings: Dictionary<any>;     // La liste des autres parametres de la discussion,
+                                  // meme specifiques.
+                                  // Cela permet aux implementations de travailler
+                                  // avec plus de donnees.
 
-  settings: Dictionary<any>;
+  getMessages(maxMessages: number, afterDate?: Date, filter?: (msg: Message) => boolean): Bluebird.Thenable<Message[]>;
+  //  Retourne une liste des maxMessages derniers messages echanges pendant la discussion,
+  //  au plus : s'il y en a moins, alors retourne le nombre de messages disponibles.
+  //  Si afterDate est precise, ne retourne que les messages posterieurs a afterDate.
+  //  Si filter est precise, ne retourne que les messages dont l'application de la fonction
+  //  filter ne retourne true.
 
-  getMessages(maxMessages: number, afterDate?: Date, filter?: (msg: Message) => boolean): Bluebird<Message[]> {
-    // TODO : this depends on how we manage heterogeneous ContactAccount
-    //        see above in OchatUser.getOrCreateDiscussion
-    return undefined;
-  }
+  sendMessage(msg: Message, callback?: (err: Error, succes: Message) => any): void;
+  //  Envoie le message "msg" a tous les participants de la discussion.
+  //  Cette methode fait appel au proxy pour chaque Account de "participants".
 
-  sendMessage(msg: Message, callback?: (err: Error, succes: Message) => any): void {
-    let err: Error = null;
-    for(let recipient of this.participants) {
-      let gotIt: boolean = false;
-      // TODO : rework this
-      for(let ownerAccount of this.owner.accounts) {
-        if(ownerAccount.driver.isCompatibleWith(recipient.protocol)) {
-          ownerAccount.sendMessageTo(recipient, msg, callback);
-          gotIt = true;
-          break;
-        }
-      }
-      if(!err && !gotIt) {
-        err = new Error("At least one recipient could not be served.");
-      }
-    }
-    callback(err, msg);
-  }
+  addParticipants(p: GroupAccount): Bluebird.Thenable<Discussion>;
+  //  Ajoute les membres de "p" a la discussion courante.
+  //  Ces participants peuvent aussi bien etre un groupe
+  //  (deja existants ou non) qu'une personne seule.
+  //  Si il existe deja un GroupAccount utilisant le meme
+  //  protocole, p sera ajoute a ce groupe.
 
-  addParticipants(p: GroupAccount): Bluebird<Discussion> {
-    if(this.participants.indexOf(p) === -1) {
-      let param: string[] = [p.protocol];
-      this.owner.getAccounts(param).then((ownerAccounts) => {
-        let compatibleParticipants: GroupAccount[] = [];
-        for(let participant of this.participants) {
-          if(participant.protocol === p.protocol) {
-            compatibleParticipants.push(participant);
-          }
-        }
-        let gotIt: boolean = false;
-        for(let compatibleParticipant of compatibleParticipants) {
-          for(let ownerAccount of ownerAccounts) {
-            if(ownerAccount.hasContactAccount(compatibleParticipant.members[0])) {
-              // Ok, we have determined which one of the user's accounts
-              // owns the current compatible participant.
-              // Now if it owns the ContactAccounts that we want to add
-              // to this discussion too, we win.
-              if(ownerAccount.hasContactAccount(p.members[0])) {
-                // That's it, we win !
-                ownerAccount.driver.addMembersToGroupChat(p.members, compatibleParticipant, (err) => {
-                  if(!err) {
-                    compatibleParticipant.addMembers(p.members);
-                  }
-                });
-                gotIt = true;
-                break;
-              }
-            }
-          }
-          if(gotIt) {
-            break;
-          }
-        }
-        // In the case where we still not have been able to add these participants,
-        // there is two solutions :
-        if(!gotIt) {
-          if(compatibleParticipants.length === 0) {
-            // First, we are trying to add accounts using a protocol which is
-            // not in this discussion yet. We just have to add these participants
-            // to this discussion, which will become heterogeneous.
-            this.participants.push(p);
-            this.heterogeneous = true;
-          } else {
-            // Second, we are trying to add accounts from an UserAccount which has
-            // no current contacts in this discussion. We just have to add them.
-            this.participants.push(p);
-          }
-          // TODO : but how the new participants will know that they are in this discussion ?
-          //        For the moment, they won't know until we send a message to them.
-          //        I don't think that it is a real problem.
-          //        If it is, we coud just auto-send a message to them.
-        }
-      });
-    }
-    return Bluebird.resolve(this);
-  }
+  removeParticipants(contactAccount: ContactAccount): Bluebird.Thenable<Discussion>;
+  //  Enleve le participant "contactAccount" de la discussion
+  //  courante. Plus exactement, supprime "contactAccount" d'un
+  //  GroupAccount de this.participants et l'evince du groupe de
+  //  chat et de la conversation du cote du service (via un Proxy).
+  //  A noter que si jamais "contactAccount" etait present
+  //  dans plusieurs GroupAccounts de this.participants, il ne
+  //  sera supprime qu'une seule fois.
 
-  removeParticipants(contactAccount: ContactAccount): Bluebird<Discussion> {
-    // TODO
-    return Bluebird.resolve(this);
-  }
+  getParticipants(): Bluebird.Thenable<GroupAccount[]>;
+  //  Retourne une liste des participants de la discussion courante.
 
-  getParticipants(): Bluebird<GroupAccount[]> {
-    return Bluebird.resolve(this.participants);
-  }
+  onMessage(callback: (msg: Message) => any): Bluebird.Thenable<Discussion>;
+  //  Met a jour la methode a executer lors de la reception du message.
+  //  Retourne la discussion courante pour permettre de chainer
+  //  les appels.
+  //  TODO : this should maybe be somewhere else.
 
-  onMessage(callback: (msg: Message) => any): Bluebird<Discussion> {
-    // TODO : see troubles in interfaces.ts before
-    return undefined;
-  }
+  getName(): Bluebird.Thenable<string>;
+  //  Retourne le nom de la discussion.
 
-  getName(): Bluebird<string> {
-    return Bluebird.resolve(this.name);
-  }
+  getDescription(): Bluebird.Thenable<string>;
+  //  Retourne une description de la discussion.
 
-  getDescription(): Bluebird<string> {
-    return Bluebird.resolve(this.description);
-  }
-
-  getSettings(): Bluebird<Dictionary<any>> {
-    return Bluebird.resolve(this.settings);
-  }
+  getSettings(): Bluebird.Thenable<Dictionary<any>>;
+  //  Retourne tout les paramètres de la discussion, même spécifiques (map).
+  //  Bien evidemment, nous ne pourrons pas tout traiter.
+  //  Nous essayerons cependant de faire du mieux possible sans pour autant
+  //  y passer des heures entieres.
 }

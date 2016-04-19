@@ -1,62 +1,63 @@
 import * as Bluebird from "bluebird";
+import {Proxy} from "./proxy";
+import {Connection} from "./connection";
+import {User} from "./user";
+import {Discussion} from "./discussion";
+import {Contact} from "./contact";
+import {ContactAccount} from "./contact-account";
+import {GroupAccount} from "./group-account";
+import {Message} from "./message";
+import {Dictionary} from "./utils";
 
-import {ContactAccount} from "./interfaces/contact-account";
-import {User} from "./interfaces/user";
-import {Discussion} from "./interfaces/discussion";
-import {Connection} from "./interfaces/connection";
-import {GroupAccount} from "./interfaces/group-account";
-import {Message} from "./interfaces/message";
-import {UserAccount} from "./interfaces/user-account";
-import {Proxy} from "./interfaces/proxy";
-import {Contact} from "./interfaces/contact";
-import {Dictionary} from "./interfaces/utils";
+/***************************************************************
+ * UserAccount represente one account used by an user of
+ * Omni-Chat. This user can use several accounts at the same
+ * time : that's the reason why Omni-Chat was created.
+ * UserAccount is totally DIFFERENT from ContactAccount. An user
+ * can plenty acceed to all his accounts, and do (almost)
+ * everything he can do by using directly his accounts, without
+ * using Omni-Chat.
+ ***************************************************************/
+export interface UserAccount {
+  username: string;       //  Le nom sous lequel peut se connecter l'utilisateur.
 
-export class OChatUserAccount implements UserAccount {
-  username: string;
+  driver: Proxy;          //  Le pilote permettant d'acceder a ce compte.
 
-  driver: Proxy;
+  connection: Connection; //  Une connection, existante ou non, allumee ou non,
+                          //  etablie entre l'utilisateur et le service desire.
 
-  connection: Connection;
+  data: Dictionary<any>; //  Les autres donnees du compte.
+                          //  Permet aux implementations de travailler avec
+                          //  plus de details.
 
-  data: Dictionary<any>;
+  owner: User;            //  Le proprietaire du compte.
 
-  owner: User;
+  getContacts(): Bluebird.Thenable<Contact[]>;
+  //  Accede a la liste des contacts du compte courant,
+  //  et les retourne sous forme de tableau de contacts.
 
-  getContacts(): Bluebird<Contact[]> {
-    return Bluebird.resolve(this.driver.getContacts(this));
-  }
+  hasContactAccount(account: ContactAccount): Bluebird.Thenable<boolean>;
+  //  Retourne vrai si et seulement si le contact "account"
+  //  peut etre accede a partir du compte courant.
+  //  Necessite que account.localID soit defini.
 
-  hasContactAccount(account: ContactAccount): Bluebird<boolean> {
-    return Bluebird.resolve(this.getContacts().then((contacts): boolean => {
-      for(let contact of contacts) {
-        if(contact.accounts[0].localID === account.localID) {
-          return true;
-        }
-      }
-      return false;
-    }));
-  }
+  getDiscussions(max?: number, filter?: (discuss: Discussion) => boolean): Bluebird.Thenable<Discussion[]>;
+  //  Accede a la liste des discussions du compte courant
+  //  et retourne jusqu'a "max" Discussions dans un tableau.
+  //  Si filter est precise, ne retourne dans le tableau que les discussions
+  //  pour lesquelles la fonction "filter" retourne true.
 
-  getDiscussions(max?: number, filter?: (discuss: Discussion) => boolean): Bluebird<Discussion[]> {
-    return Bluebird.resolve(this.driver.getDiscussions(this, max, filter));
-  }
+  getOwner(): Bluebird.Thenable<User>;
+  //  Retourne l'utilisateur proprietaire du compte.
 
-  getOwner(): Bluebird<User> {
-    return Bluebird.resolve(this.owner);
-  }
+  getOrCreateConnection(): Bluebird.Thenable<Connection>;
+  //  Connecte le compte courant, ou recupere la connexion existante.
+  //  Si la connexion n'existait pas, elle sera cree et directement accessible,
+  //  sauf erreur.
 
-  getOrCreateConnection(): Bluebird<Connection> {
-    if(this.connection && this.connection.connected) {
-      return Bluebird.resolve(this.connection);
-    }
-    return Bluebird.resolve(this.driver.createConnection(this));
-  }
-
-  sendMessageTo(recipients: GroupAccount, msg: Message, callback?: (err: Error, succes: Message) => any): void {
-    this.driver.sendMessage(msg, recipients, callback);
-  }
-
-  constructor(owner: User) {
-    this.owner = owner;
-  }
+  sendMessageTo(recipients: GroupAccount, msg: Message, callback?: (err: Error, succes: Message) => any): void;
+  //  Envoie le message "msg" aux contacts "recipients"
+  //  dans UNE SEULE conversation, sauf si le protocole
+  //  ne supporte pas les groupes.
+  //  Si le message ne peut pas etre envoye, err sera non nul.
 }

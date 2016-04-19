@@ -1,5 +1,4 @@
-import {EventEmitter} from "events";
-
+import { EventEmitter } from "events";
 /***************************************************************
  * Connection represents a connection to a certain type of
  * Account. It can establish and maintain a link between you and
@@ -9,7 +8,5 @@ import {EventEmitter} from "events";
  * connection to do.
  ***************************************************************/
 export interface Connection extends EventEmitter {
-  connected: boolean;     //  The actual state of this connection.
-                          //  If it's already connected, it's true,
-                          //  and false otherwise.
+    connected: boolean;
 }
