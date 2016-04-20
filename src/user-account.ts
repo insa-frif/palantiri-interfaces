@@ -21,12 +21,10 @@ import {Dictionary} from "./utils";
 export interface UserAccount {
   username: string;       //  Le nom sous lequel peut se connecter l'utilisateur.
 
-  driver: ConnectedApi;   //  Le pilote permettant d'acceder a ce compte.
-
   connection: Connection; //  Une connection, existante ou non, allumee ou non,
                           //  etablie entre l'utilisateur et le service desire.
 
-  data: Dictionary<any>; //  Les autres donnees du compte.
+  data: Dictionary<any>;  //  Les autres donnees du compte.
                           //  Permet aux implementations de travailler avec
                           //  plus de details.
 
