@@ -22,7 +22,7 @@ export interface User extends EventEmitter{
   //  En cas de création, garanti que l'initiateur de la
   //  conversation est present en tant que participant.
 
-  leaveDiscussion(discussion: Discussion, callback?: (err: Error, succes: Discussion) => any): void;
+  leaveDiscussion(discussion: Discussion): Bluebird.Thenable<User>;
   //  Permet de quitter la discussion "discussion" et de ne plus
   //  recevoir les notifications associées.
 
@@ -38,16 +38,16 @@ export interface User extends EventEmitter{
   //  Retourne la liste des contacts de l'utilisateur courant.
   //  Pour chaque compte lie a l'utilisateur,
 
-  addAccount(account: UserAccount, callback? : (err: Error, succes: UserAccount[]) => any): void;
+  addAccount(account: UserAccount, callback? : (err: Error, succes: UserAccount[]) => any): Bluebird.Thenable<User>;
   //  Ajoute un compte a l'utilisateur courant
 
-  removeAccount(account: UserAccount, callback? : (err: Error, succes: UserAccount[]) => any): void;
+  removeAccount(account: UserAccount, callback? : (err: Error, succes: UserAccount[]) => any): Bluebird.Thenable<User>;
   //  Supprime un compte de l'utilisateur courant
 
-  addContact(contact: Contact, callback? : (err: Error, succes: Contact[]) => any): void;
+  addContact(contact: Contact, callback? : (err: Error, succes: Contact[]) => any): Bluebird.Thenable<User>;
   //  Ajoute un contact a l'utilisateur courant
 
-  removeContact(contact: Contact, callback?: (err: Error, succes: Contact[]) => any): void;
+  removeContact(contact: Contact, callback?: (err: Error, succes: Contact[]) => any): Bluebird.Thenable<User>;
   //  Supprime un contact de l'utilisateur courant
 
 	connectionsOn(event: string, handler: (...args: any[]) => any): Bluebird.Thenable<User>;
