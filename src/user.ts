@@ -9,10 +9,6 @@ import {EventEmitter} from "events";
  * User is the representation of someone connected with OmniChat.
  * An user works quite like a Contact : you just have more
  * rights as an user (for example acceed to your own contacts).
- * Be careful, it extends EventEmitter but it can ONLY emit
- * events, not really handling one by its own. In fact, all
- * methods except .emit inherited from EventEmitter will just
- * call the same method for the Connections of each UserAccount.
  ***************************************************************/
 export interface User extends EventEmitter{
   accounts: UserAccount[];  //  La liste des comptes connus de l'utilisateur
@@ -53,4 +49,29 @@ export interface User extends EventEmitter{
 
   removeContact(contact: Contact, callback?: (err: Error, succes: Contact[]) => any): void;
   //  Supprime un contact de l'utilisateur courant
+
+	connectionsOn(event: string, handler: (...args: any[]) => any): Bluebird.Thenable<User>;
+	//  Allows all current Connections of all accounts to react
+	//  to the event "event" by triggering the function "handler".
+	//  Note that this will take effect only on the connections
+	//  already established.
+
+	connectionsOnce(event: string, handler: (...args: any[]) => any): Bluebird.Thenable<User>;
+	//  Allows all current Connections of all accounts to react
+	//  to the event "event" by triggering the function "handler",
+	//  but only once.
+	//  Note that this will take effect only on the connections
+	//  already established.
+
+	removeConnectionsListener(event: string, handler: (...args: any[]) => any): Bluebird.Thenable<User>;
+	//  Remove all current listeners for the event "event" which
+	//  trigger "handler" of each current connections of all accounts.
+	//  Note that this will take effect only on the connections
+	//  already established.
+
+	connectionsSetMaxListeners(n: number): Bluebird.Thenable<User>;
+	//  Set the maximum number of listeners that each Connection
+	//  of all accounts could use.
+	//  Note that this will take effect only on the connections
+	//  already established.
 }
