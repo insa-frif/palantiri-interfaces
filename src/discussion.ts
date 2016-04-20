@@ -7,8 +7,8 @@ import {Dictionary} from "./utils";
 
 /***************************************************************
  * Discussion is the only thing you can use to chat with someone.
- * It provides you methods to send a message, do something when
- * you receive a message and so on.
+ * It provides you methods to send a message, add and remove
+ * participants, and so on.
  ***************************************************************/
 export interface Discussion {
   creationDate: Date;             // Date de creation de la conversation
@@ -30,10 +30,10 @@ export interface Discussion {
   owner: User;                    // L'utilisateur d'Omni-Chat qui utilise
                                   // cette discussion.
 
-  settings: Dictionary<any>;     // La liste des autres parametres de la discussion,
-                                  // meme specifiques.
-                                  // Cela permet aux implementations de travailler
-                                  // avec plus de donnees.
+  settings: Dictionary<any>;      // La liste des autres parametres de la discussion,
+		                              // meme specifiques.
+		                              // Cela permet aux implementations de travailler
+																	// avec plus de donnees.
 
   getMessages(maxMessages: number, afterDate?: Date, filter?: (msg: Message) => boolean): Bluebird.Thenable<Message[]>;
   //  Retourne une liste des maxMessages derniers messages echanges pendant la discussion,
@@ -44,7 +44,9 @@ export interface Discussion {
 
   sendMessage(msg: Message, callback?: (err: Error, succes: Message) => any): void;
   //  Envoie le message "msg" a tous les participants de la discussion.
-  //  Cette methode fait appel au proxy pour chaque Account de "participants".
+  //  Il est a noter que le message ne pourra etre envoye que si
+	//  les comptes de l'utilisateurs necessaires a cet envoie
+	//  disposent tous d'une connection allumee.
 
   addParticipants(p: GroupAccount): Bluebird.Thenable<Discussion>;
   //  Ajoute les membres de "p" a la discussion courante.
