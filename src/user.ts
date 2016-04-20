@@ -3,13 +3,18 @@ import {UserAccount} from "./user-account";
 import {GroupAccount} from "./group-account";
 import {Contact} from "./contact";
 import {Discussion} from "./discussion";
+import {EventEmitter} from "events";
 
 /***************************************************************
  * User is the representation of someone connected with OmniChat.
  * An user works quite like a Contact : you just have more
  * rights as an user (for example acceed to your own contacts).
+ * Be careful, it extends EventEmitter but it can ONLY emit
+ * events, not really handling one by its own. In fact, all
+ * methods except .emit inherited from EventEmitter will just
+ * call the same method for the Connections of each UserAccount.
  ***************************************************************/
-export interface User {
+export interface User extends EventEmitter{
   accounts: UserAccount[];  //  La liste des comptes connus de l'utilisateur
 
   username: string;         //  Le nom complet de l'utilisateur
@@ -38,14 +43,14 @@ export interface User {
   //  Pour chaque compte lie a l'utilisateur,
 
   addAccount(account: UserAccount, callback? : (err: Error, succes: UserAccount[]) => any): void;
-  // Ajoute un compte a l'utilisateur courant
+  //  Ajoute un compte a l'utilisateur courant
 
   removeAccount(account: UserAccount, callback? : (err: Error, succes: UserAccount[]) => any): void;
-  // Supprime un compte de l'utilisateur courant
+  //  Supprime un compte de l'utilisateur courant
 
   addContact(contact: Contact, callback? : (err: Error, succes: Contact[]) => any): void;
-  // Ajoute un contact a l'utilisateur courant
+  //  Ajoute un contact a l'utilisateur courant
 
   removeContact(contact: Contact, callback?: (err: Error, succes: Contact[]) => any): void;
-  // Supprime un contact de l'utilisateur courant
+  //  Supprime un contact de l'utilisateur courant
 }
