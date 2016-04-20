@@ -4,28 +4,15 @@ import {User} from "./user";
 
 /***************************************************************
  * App is the entry point for the library.
- * Maintains the list of available proxies and connected users.
+ * It maintains the list of connected users.
  ***************************************************************/
 export interface App {
-  drivers: ConnectedApi[];   // Available proxies for this app
-
   users: User[];      // Currently connected users for this app
 
-  getConnectedApiFor(protocol: string): Bluebird.Thenable<ConnectedApi>;
-  //  Retourne le premier proxy permettant d'utiliser
-  //  le protocole "protocol".
-
-  addDriver(driver: ConnectedApi, callback?: (err: Error, drivers: ConnectedApi[]) => any): App;
-  //  Ajoute le proxy "driver" a la liste des drivers supportes
-  //  par cette App, si l'App ne possede pas deja un proxy
-  //  qui gere le meme protocole que "driver".
-  //  Sinon, err sera non nul.
-
-  removeDriversFor(protocol: string, callback?: (err: Error, drivers: ConnectedApi[]) => any): App;
-  //  Supprime tout les drivers connus de l'App qui supportent
-  //  le protocole "protocol".
-  //  Ne fait rien si aucun des drivers connus ne supporte
-  //  le protocole "protocol". Dans ce cas, err sera non nul.
+  getUsers(filter?: (user: User) => boolean): Bluebird.Thenable<User[]>;
+  //  Return all Users connected through the current App.
+  //  If "filter" is precised, only returns Users for which
+  //  filter return true.
 
   addUser(user: User, callback?: (err: Error, users: User[]) => any): App;
   //  Ajoute l'utilisateur "user" a la liste des utilisateurs
