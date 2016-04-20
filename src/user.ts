@@ -48,8 +48,4 @@ export interface User {
 
   removeContact(contact: Contact, callback?: (err: Error, succes: Contact[]) => any): void;
   // Supprime un contact de l'utilisateur courant
-
-  onDiscussionRequest(callback: (disc: Discussion) => any): void;
-  onContactRequest(callback: (contact: Contact) => any): void;
-  // TODO : i'm not sure about how these two methods are supposed to work
 }
