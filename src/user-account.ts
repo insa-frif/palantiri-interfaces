@@ -17,6 +17,11 @@ import {Dictionary} from "./utils";
  * can plenty acceed to all his accounts, and do (almost)
  * everything he can do by using directly his accounts, without
  * using Omni-Chat.
+ * The method getOrCreateConnection will sometimes need to
+ * instanciate a new Connection. Or Connections objects are
+ * specific, and the library has no clue about which one is
+ * available. Therefore, when creating a new module, devs must
+ * also create a new UserAccount too.
  ***************************************************************/
 export interface UserAccount {
   username: string;       //  Le nom sous lequel peut se connecter l'utilisateur.
