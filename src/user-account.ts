@@ -21,6 +21,8 @@ import {Dictionary} from "./utils";
 export interface UserAccount {
   username: string;       //  Le nom sous lequel peut se connecter l'utilisateur.
 
+	protocol: string;       //  The protocol used by this account.
+
   connection: Connection; //  Une connection, existante ou non, allumee ou non,
                           //  etablie entre l'utilisateur et le service desire.
 
