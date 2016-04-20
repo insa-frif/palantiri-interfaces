@@ -1,5 +1,5 @@
 import * as Bluebird from "bluebird";
-import {Proxy} from "./proxy";
+import {ConnectedApi} from "./connected-api";
 import {User} from "./user";
 
 /***************************************************************
@@ -7,21 +7,21 @@ import {User} from "./user";
  * Maintains the list of available proxies and connected users.
  ***************************************************************/
 export interface App {
-  drivers: Proxy[];   // Available proxies for this app
+  drivers: ConnectedApi[];   // Available proxies for this app
 
   users: User[];      // Currently connected users for this app
 
-  getProxyFor(protocol: string): Bluebird.Thenable<Proxy>;
+  getConnectedApiFor(protocol: string): Bluebird.Thenable<ConnectedApi>;
   //  Retourne le premier proxy permettant d'utiliser
   //  le protocole "protocol".
 
-  addDriver(driver: Proxy, callback?: (err: Error, drivers: Proxy[]) => any): App;
+  addDriver(driver: ConnectedApi, callback?: (err: Error, drivers: ConnectedApi[]) => any): App;
   //  Ajoute le proxy "driver" a la liste des drivers supportes
   //  par cette App, si l'App ne possede pas deja un proxy
   //  qui gere le meme protocole que "driver".
   //  Sinon, err sera non nul.
 
-  removeDriversFor(protocol: string, callback?: (err: Error, drivers: Proxy[]) => any): App;
+  removeDriversFor(protocol: string, callback?: (err: Error, drivers: ConnectedApi[]) => any): App;
   //  Supprime tout les drivers connus de l'App qui supportent
   //  le protocole "protocol".
   //  Ne fait rien si aucun des drivers connus ne supporte

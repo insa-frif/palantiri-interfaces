@@ -57,7 +57,7 @@ export interface Discussion {
   //  Enleve le participant "contactAccount" de la discussion
   //  courante. Plus exactement, supprime "contactAccount" d'un
   //  GroupAccount de this.participants et l'evince du groupe de
-  //  chat et de la conversation du cote du service (via un Proxy).
+  //  chat et de la conversation du cote du service (via un ConnectedApi).
   //  A noter que si jamais "contactAccount" etait present
   //  dans plusieurs GroupAccounts de this.participants, il ne
   //  sera supprime qu'une seule fois.

@@ -20,7 +20,7 @@ import {Message} from "./message";
  * they services offered by Proxies must edit these objects by
  * their own, depending of the result of Proxies methods calls.
  ***************************************************************/
-export interface Proxy {
+export interface ConnectedApi {
   protocol: string;       //  Le protocol supporte par le proxy.
                           //  Varie selon l'implementation de l'interface.
 

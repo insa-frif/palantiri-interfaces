@@ -1,6 +1,6 @@
 import * as Bluebird from "bluebird";
 import {EventEmitter} from "events";
-import {Proxy} from "./proxy";
+import {ConnectedApi} from "./connected-api";
 import {UserAccount} from "./user-account";
 
 /***************************************************************
@@ -18,7 +18,7 @@ export interface Connection extends EventEmitter {
                           //  If it's already connected, it's true,
                           //  and false otherwise.
 
-  connect(userAccount: UserAccount): Bluebird.Thenable<Proxy>;
+  connect(userAccount: UserAccount): Bluebird.Thenable<ConnectedApi>;
   //  Try to establich a connection to the account "userAccount".
   //  If it succeed, it will then return a ConnectApi which allows
   //  you to do some operations with the account, and

@@ -6,7 +6,7 @@ export {Discussion} from "./discussion";
 export {DiscussionAuthorization} from "./discussion-authorization";
 export {GroupAccount} from "./group-account";
 export {Message} from "./message";
-export {Proxy} from "./proxy";
+export {ConnectedApi} from "./connected-api";
 export {User} from "./user";
 export {UserAccount} from "./user-account";
 

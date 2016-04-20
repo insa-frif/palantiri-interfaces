@@ -1,5 +1,5 @@
 import * as Bluebird from "bluebird";
-import {Proxy} from "./proxy";
+import {ConnectedApi} from "./connected-api";
 import {Connection} from "./connection";
 import {User} from "./user";
 import {Discussion} from "./discussion";
@@ -21,7 +21,7 @@ import {Dictionary} from "./utils";
 export interface UserAccount {
   username: string;       //  Le nom sous lequel peut se connecter l'utilisateur.
 
-  driver: Proxy;          //  Le pilote permettant d'acceder a ce compte.
+  driver: ConnectedApi;   //  Le pilote permettant d'acceder a ce compte.
 
   connection: Connection; //  Une connection, existante ou non, allumee ou non,
                           //  etablie entre l'utilisateur et le service desire.
