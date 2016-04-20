@@ -65,12 +65,6 @@ export interface Discussion {
   getParticipants(): Bluebird.Thenable<GroupAccount[]>;
   //  Retourne une liste des participants de la discussion courante.
 
-  onMessage(callback: (msg: Message) => any): Bluebird.Thenable<Discussion>;
-  //  Met a jour la methode a executer lors de la reception du message.
-  //  Retourne la discussion courante pour permettre de chainer
-  //  les appels.
-  //  TODO : this should maybe be somewhere else.
-
   getName(): Bluebird.Thenable<string>;
   //  Retourne le nom de la discussion.
 
