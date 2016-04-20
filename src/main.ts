@@ -5,7 +5,7 @@ export {ContactAccount} from "./contact-account";
 export {Discussion} from "./discussion";
 export {DiscussionAuthorization} from "./discussion-authorization";
 export {GroupAccount} from "./group-account";
-export {Message} from "./message";
+export {Message, MessageFlags} from "./message";
 export {ConnectedApi} from "./connected-api";
 export {User} from "./user";
 export {UserAccount} from "./user-account";
