@@ -49,6 +49,12 @@ export interface ConnectedApi {
   //  a acces. "groupChat" ne sera donc en aucun cas modifie.
   //  Si au moins un des membres n'a pa pu etre supprime, err sera non nul.
 
+	leaveGroupChat(group: GroupAccount, callback: (err: Error) => any): void;
+	//  Let the user leave the group chat "group".
+	//  The result is that hte user will not receive any message from this
+	//  group, unless he recreats it or accepts a new invitation
+	//  to rejoin it.
+
   sendMessage(msg: Message, recipients: GroupAccount, callback?: (err: Error, succesM: Message) => any): void;
   //  Envoie le message "msg" aux destinataires "recipients".
   //  Il est a noter que le message sera envoye dans UNE SEULE
