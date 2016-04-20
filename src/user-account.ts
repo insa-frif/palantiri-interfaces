@@ -24,11 +24,11 @@ export interface UserAccount {
   connection: Connection; //  Une connection, existante ou non, allumee ou non,
                           //  etablie entre l'utilisateur et le service desire.
 
+  owner: User;            //  Le proprietaire du compte.
+
   data: Dictionary<any>;  //  Les autres donnees du compte.
                           //  Permet aux implementations de travailler avec
                           //  plus de details.
-
-  owner: User;            //  Le proprietaire du compte.
 
   getContacts(): Bluebird.Thenable<Contact[]>;
   //  Accede a la liste des contacts du compte courant,
@@ -38,6 +38,7 @@ export interface UserAccount {
   //  Retourne vrai si et seulement si le contact "account"
   //  peut etre accede a partir du compte courant.
   //  Necessite que account.localID soit defini.
+  //  Necessite que la connectio soit etablie.
 
   getDiscussions(max?: number, filter?: (discuss: Discussion) => boolean): Bluebird.Thenable<Discussion[]>;
   //  Accede a la liste des discussions du compte courant
