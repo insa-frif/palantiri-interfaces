@@ -1,9 +1,6 @@
 import * as Bluebird from "bluebird";
-import {ConnectedApi} from "./connected-api";
 import {Connection} from "./connection";
-import {User} from "./user";
 import {Discussion} from "./discussion";
-import {Contact} from "./contact";
 import {ContactAccount} from "./contact-account";
 import {GroupAccount} from "./group-account";
 import {Message} from "./message";
