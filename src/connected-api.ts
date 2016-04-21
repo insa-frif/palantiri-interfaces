@@ -1,9 +1,7 @@
 import * as Bluebird from "bluebird";
-import {UserAccount} from "./user-account";
 import {Discussion} from "./discussion";
-import {ContactAccount} from "./contact-account";
-import {GroupAccount} from "./group-account";
 import {Message} from "./message";
+import {Contact} from "./contact";
 
 /***************************************************************
  * ConnectedApis are specific ways to connect to an account.
@@ -23,39 +21,38 @@ export interface ConnectedApi {
                           //  This depends of implementations.
 
   isCompatibleWith(protocol: string): boolean;
-  //  Retourne vrai si le protocole protocol est compatible avec ce proxy.
-  //  Protocol sera peut-etre encapsule dans une enum ou une struct
-  //  par la suite.
+  //  Retourne vrai si le protocole "protocol" est
+	//  compatible avec cette Api.
 
-  getContacts(account: UserAccount): Bluebird.Thenable<ContactAccount[]>;
+  getContacts(): Bluebird.Thenable<Contact[]>;
   //  Accede a la liste des contacts du compte "account",
-  //  et les retourne sous forme de tableau de ContactAccounts.
+  //  et les retourne sous forme de tableau de Contacts.
 
-  getDiscussions(account: UserAccount, max?: number, filter?: (discuss: Discussion) => boolean): Bluebird.Thenable<Discussion[]>;
+  getDiscussions(max?: number, filter?: (discuss: Discussion) => boolean): Bluebird.Thenable<Discussion[]>;
   //  Accede a la liste des discussions du compte "account"
   //  et retourne jusqu'a "max" Discussions dans un tableau.
   //  Si filter est precise, ne retourne dans le tableau que les discussions
   //  pour lesquelles la fonction "filter" retourne true.
 
-  addMembersToGroupChat(members: ContactAccount[], groupChat: GroupAccount, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
+  addMembersToDiscussion(members: Contact[], discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
   //  Ajoute les membres "members" au groupe de discussion "groupChat".
   //  Ceci ne se fait que du cote du service auquel le proxy courant
   //  a acces. "groupChat" ne sera donc en aucun cas modifie.
   //  Si au moins un des membres n'a pa pu etre ajoute, err sera non nul.
 
-  removeMembersFromGroupChat(members: ContactAccount[], groupChat: GroupAccount, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
+  removeMembersFromDiscussion(members: Contact[], discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
   //  Supprime les membres "members" du groupe de discussion "groupChat".
   //  Ceci ne se fait que du cote du service auquel le proxy courant
   //  a acces. "groupChat" ne sera donc en aucun cas modifie.
   //  Si au moins un des membres n'a pa pu etre supprime, err sera non nul.
 
-	leaveGroupChat(group: GroupAccount, callback: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
+	leaveDiscussion(discussion: Discussion, callback: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
 	//  Let the user leave the group chat "group".
 	//  The result is that hte user will not receive any message from this
 	//  group, unless he recreats it or accepts a new invitation
 	//  to rejoin it.
 
-  sendMessage(msg: Message, recipients: GroupAccount, callback?: (err: Error, succesM: Message) => any): Bluebird.Thenable<ConnectedApi>;
+  sendMessage(msg: Message, recipients: Contact[], callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<ConnectedApi>;
   //  Envoie le message "msg" aux destinataires "recipients".
   //  Il est a noter que le message sera envoye dans UNE SEULE
   //  conversation, sauf si le protocole ne supporte pas les groupes.

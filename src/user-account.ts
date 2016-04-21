@@ -1,9 +1,8 @@
 import * as Bluebird from "bluebird";
 import {Connection} from "./connection";
 import {Discussion} from "./discussion";
-import {ContactAccount} from "./contact-account";
-import {GroupAccount} from "./group-account";
 import {Message} from "./message";
+import {Contact} from "./contact";
 import {Dictionary} from "./utils";
 
 /***************************************************************
@@ -32,11 +31,11 @@ export interface UserAccount {
                           //  Permet aux implementations de travailler avec
                           //  plus de details.
 
-  getContacts(): Bluebird.Thenable<ContactAccount[]>;
+  getContacts(): Bluebird.Thenable<Contact[]>;
   //  Accede a la liste des contacts du compte courant,
   //  et les retourne sous forme de tableau de contacts.
 
-  hasContactAccount(account: ContactAccount): Bluebird.Thenable<boolean>;
+  hasContactAccount(account: Contact): Bluebird.Thenable<boolean>;
   //  Retourne vrai si et seulement si le contact "account"
   //  peut etre accede a partir du compte courant.
   //  Necessite que account.localID soit defini.
@@ -53,7 +52,7 @@ export interface UserAccount {
   //  Si la connexion n'existait pas, elle sera cree et directement accessible,
   //  sauf erreur.
 
-  sendMessageTo(recipients: GroupAccount, msg: Message, callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<UserAccount>;
+  sendMessageTo(recipients: Contact, msg: Message, callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<UserAccount>;
   //  Envoie le message "msg" aux contacts "recipients"
   //  dans UNE SEULE conversation, sauf si le protocole
   //  ne supporte pas les groupes.

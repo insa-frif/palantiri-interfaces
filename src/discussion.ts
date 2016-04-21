@@ -42,6 +42,10 @@ export interface Discussion {
 		                              // Cela permet aux implementations de travailler
 																	// avec plus de donnees.
 
+	isCompatibleWith(protocol: string): boolean;
+	//  Retourne vrai si le protocole "protocol" est
+	//  compatible avec la Discussion courante.
+
   getMessages(maxMessages: number, afterDate?: Date, filter?: (msg: Message) => boolean): Bluebird.Thenable<Message[]>;
   //  Retourne une liste des maxMessages derniers messages echanges pendant la discussion,
   //  au plus : s'il y en a moins, alors retourne le nombre de messages disponibles.

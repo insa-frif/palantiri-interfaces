@@ -1,10 +1,10 @@
 import * as Bluebird from "bluebird";
-import {ContactAccount} from "./contact-account";
 import {UserAccount} from "./user-account";
+import {Contact} from "./contact";
 
 /***************************************************************
- * MSG_FLAG constants are flags that are used to help us sending
- * messages with different protocols (with Proxies).
+ * MessageFlags constants are flags that are used to help us sending
+ * messages with different protocols (with ConnectedApis).
  * Whatever the messages content, text will always be send,
  * even if the message does not contain any text. So every
  * protocols will always be able to send something.
@@ -15,7 +15,8 @@ export const MessageFlags = {
   VIDEO:      0x0004,   //  The message contains video(s)
   FILE:       0x0008,   //  The message contains other file(s)
   URL:        0x0010,   //  The message contains an URL
-  EDITABLE:   0x0100   //  The message is editable
+  EDITABLE:   0x0100,   //  The message is editable
+	CAM:        0x1000    //  The message is a cam-chat
 };
 
 /***************************************************************
@@ -24,11 +25,11 @@ export const MessageFlags = {
  * TextMessage, ImageMessage, VideoMessage...
  ***************************************************************/
 export interface Message {
-  author: ContactAccount | UserAccount; // L'auteur du message.
-                                        // Ce ne peut pas etre un objet de type
-                                        // Contact. L'association entre ContactAccount
-                                        // et Contact se fera plus tard, car peut
-                                        // dependre de l'utilisateur.
+  author: Contact | UserAccount;  // L'auteur du message.
+	                                // Ce ne peut pas etre un objet de type
+	                                // Contact. L'association entre ContactAccount
+	                                // et Contact se fera plus tard, car peut
+	                                // dependre de l'utilisateur.
 
   body: string;         // Une representation sous forme de string
                         // du message.
@@ -60,7 +61,7 @@ export interface Message {
   //  ce qui conduira peut-etre a supprimer cette methode
   //  de l'interface globale.
 
-  getAuthor(): Bluebird.Thenable<ContactAccount | UserAccount>;
+  getAuthor(): Bluebird.Thenable<Contact | UserAccount>;
   //  Retourne l'auteur du message.
 
   getContent(): Bluebird.Thenable<any>;
