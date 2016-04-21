@@ -3,7 +3,7 @@ import {Contact} from "./contact";
 import {Message} from "./message";
 import {Dictionary} from "./utils";
 import {UserAccount} from "./user-account";
-import {DiscussionAuthorization} from "../dist/node/discussion-authorization";
+import {DiscussionAuthorization} from "./discussion-authorization";
 
 /***************************************************************
  * Discussion is the only thing you can use to chat with someone.
