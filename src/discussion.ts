@@ -51,12 +51,6 @@ export interface Discussion {
   //  Si filter est precise, ne retourne que les messages dont l'application de la fonction
   //  filter ne retourne true.
 
-  sendMessage(msg: Message, callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<Discussion>;
-  //  Envoie le message "msg" a tous les participants de la Discussion.
-  //  Il est a noter que le message ne pourra etre envoye que si
-	//  le compte de l'utilisateur necessaire a cet envoie
-	//  dispose d'une connexion allumee.
-
   addParticipants(p: Contact[]): Bluebird.Thenable<Discussion>;
   //  Ajoute les membres de "p" a la Discussion courante.
 	//  Dans la mesure des possibilites offertes par le protocole
