@@ -3,6 +3,7 @@ import {Contact} from "./contact";
 import {Message} from "./message";
 import {Dictionary} from "./utils";
 import {UserAccount} from "./user-account";
+import {DiscussionAuthorization} from "../dist/node/discussion-authorization";
 
 /***************************************************************
  * Discussion is the only thing you can use to chat with someone.
@@ -31,7 +32,10 @@ export interface Discussion {
                                   // L'utilisateur n'en fait pas partie.
 
 	owner: UserAccount;             // Le compte d'un utilisateur de palantiri qui
-																	// permet d'avoir acces a cette discussion.
+																	// permet d'avoir acces a cette Discussion.
+
+	authorizations: DiscussionAuthorization;  // Les authorisation de owner
+																						// vis-a-vis de cette Discussion.
 
   settings: Dictionary<any>;      // La liste des autres parametres de la discussion,
 		                              // meme specifiques.
