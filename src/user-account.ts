@@ -51,4 +51,13 @@ export interface UserAccount {
   //  Connecte le compte courant, ou recupere la connexion existante.
   //  Si la connexion n'existait pas, elle sera cree et directement accessible,
   //  sauf erreur.
+
+  sendMessage(msg: Message, discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<UserAccount>;
+  //  Envoie le message "msg" dans la Discussion "discussion".
+	//  Si le protocole utilise ne supporte pas les groupes, le
+	//  message sera envoye a chaque participant de la Discussion
+	//  de maniere individuelle.
+	//  Si la Discussion n'existe pas encore sur le service accede,
+	//  elle sera cree.
+  //  Si le message ne peut pas etre envoye, err sera non nul.
 }
