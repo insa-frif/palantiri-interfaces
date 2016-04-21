@@ -52,7 +52,7 @@ export interface UserAccount {
   //  Si la connexion n'existait pas, elle sera cree et directement accessible,
   //  sauf erreur.
 
-  sendMessageTo(recipients: Contact, msg: Message, callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<UserAccount>;
+  sendMessageTo(recipients: Contact[], msg: Message, callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<UserAccount>;
   //  Envoie le message "msg" aux contacts "recipients"
   //  dans UNE SEULE conversation, sauf si le protocole
   //  ne supporte pas les groupes.
