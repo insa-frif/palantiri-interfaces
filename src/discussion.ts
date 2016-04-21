@@ -1,6 +1,5 @@
 import * as Bluebird from "bluebird";
 import {GroupAccount} from "./group-account";
-import {User} from "./user";
 import {Message} from "./message";
 import {ContactAccount} from "./contact-account";
 import {Dictionary} from "./utils";
@@ -28,9 +27,6 @@ export interface Discussion {
 
   participants: GroupAccount[];   // Liste des participants a la conversation.
                                   // L'utilisateur n'en fait pas partie.
-
-  owner: User;                    // L'utilisateur d'Omni-Chat qui utilise
-                                  // cette discussion.
 
   settings: Dictionary<any>;      // La liste des autres parametres de la discussion,
 		                              // meme specifiques.

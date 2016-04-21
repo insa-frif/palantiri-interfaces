@@ -9,7 +9,7 @@ import {Message} from "./message";
  * ConnectedApis are specific ways to connect to an account.
  * For example, sending a message to someone using IRC won't be
  * done the same way than to someone using facebook.
- * This imply that creating a new module (i.e to allow OmniChat
+ * This imply that creating a new module (i.e to allow palantir
  * to communicate with other accounts) devs must create a new
  * ConnectedApi too.
  * Note that ConnectedApis only act in the side of the service
