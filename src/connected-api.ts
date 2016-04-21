@@ -53,10 +53,10 @@ export interface ConnectedApi {
 	//  group, unless he recreats it or accepts a new invitation
 	//  to rejoin it.
 
-  sendMessage(msg: Message, recipients: Contact[], callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<ConnectedApi>;
-  //  Envoie le message "msg" aux destinataires "recipients".
-  //  Il est a noter que le message sera envoye dans UNE SEULE
-  //  conversation, sauf si le protocole ne supporte pas les groupes.
+  sendMessage(msg: Message, discussion: Discussion, callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<ConnectedApi>;
+  //  Envoie le message "msg" dans la Discussion "discussion".
+  //  Il est a noter que le message sera envoye individuellement
+	//  aux participants si le protocole ne supporte pas les groupes.
   //  Si la conversation n'existe pas, elle sera cree.
   //  Si le message ne peut pas etre envoye, err sera non nul.
 }
