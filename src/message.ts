@@ -10,12 +10,12 @@ import {UserAccount} from "./user-account";
  * protocols will always be able to send something.
  ***************************************************************/
 export const MessageFlags = {
-  TEXT: 0x0001,   //  The message contains text
-  IMAGE: 0x0002,   //  The message contains picture(s)
-  VIDEO: 0x0004,   //  The message contains video(s)
-  FILE: 0x0008,   //  The message contains other file(s)
-  URL: 0x0010,   //  The message contains an URL
-  EDITABLE: 0x0100   //  The message is editable
+  TEXT:       0x0001,   //  The message contains text
+  IMAGE:      0x0002,   //  The message contains picture(s)
+  VIDEO:      0x0004,   //  The message contains video(s)
+  FILE:       0x0008,   //  The message contains other file(s)
+  URL:        0x0010,   //  The message contains an URL
+  EDITABLE:   0x0100   //  The message is editable
 };
 
 /***************************************************************

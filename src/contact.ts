@@ -10,6 +10,8 @@ import * as Bluebird from "bluebird";
  * with him. Other participants could be added through the
  * interface Discussion.
  ***************************************************************/
+//  TODO : evolve to another form of Contact, mono-protocol
+//         Probably merge with contact-accounts
 export interface Contact{
   accounts: ContactAccount[]; //  La liste des comptes connus de l'utilisateur
                               //  pour lesquels ce contact est le meme.
