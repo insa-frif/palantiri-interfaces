@@ -1,8 +1,8 @@
 import * as Bluebird from "bluebird";
-import {GroupAccount} from "./group-account";
+import {Contact} from "./contact";
 import {Message} from "./message";
-import {ContactAccount} from "./contact-account";
 import {Dictionary} from "./utils";
+import {UserAccount} from "./user-account";
 
 /***************************************************************
  * Discussion is the only thing you can use to chat with someone.
@@ -12,21 +12,26 @@ import {Dictionary} from "./utils";
 //  TODO : elvolve to another form of discussion, mono-protocol
 //         Probably merge with GroupAccount
 export interface Discussion {
+	protocol: string;               // Le protocole utilise par cette Discussion.
+
+	localDiscussionID: number;      //  L'identifiant de la conversation,
+		                              //  s'il existe. Depend directement
+		                              //  de la base et donc du protocole utilise.
+
   creationDate: Date;             // Date de creation de la conversation
 
-  name: string;                   // Nom de la conversation
+  name: string;                   // Nom de la conversation.
 
   description: string;            // Une description brève de la discussion,
                                   // sous forme textuelle.
 
-  heterogeneous: boolean;         // Est vrai si la discussion est heterogene,
-                                  // c'est-a-dire composee de plusieurs participants
-                                  // utilisant des protocoles differents.
+  isPrivate: boolean;             // Privacite de la conversation.
 
-  isPrivate: boolean;             // Privacite de la conversation
-
-  participants: GroupAccount[];   // Liste des participants a la conversation.
+  participants: Contact[];        // Liste des participants a la conversation.
                                   // L'utilisateur n'en fait pas partie.
+
+	owner: UserAccount;             // Le compte d'un utilisateur de palantiri qui
+																	// permet d'avoir acces a cette discussion.
 
   settings: Dictionary<any>;      // La liste des autres parametres de la discussion,
 		                              // meme specifiques.
@@ -41,37 +46,36 @@ export interface Discussion {
   //  filter ne retourne true.
 
   sendMessage(msg: Message, callback?: (err: Error, succes: Message) => any): Bluebird.Thenable<Discussion>;
-  //  Envoie le message "msg" a tous les participants de la discussion.
+  //  Envoie le message "msg" a tous les participants de la Discussion.
   //  Il est a noter que le message ne pourra etre envoye que si
-	//  les comptes de l'utilisateurs necessaires a cet envoie
-	//  disposent tous d'une connection allumee.
+	//  le compte de l'utilisateur necessaire a cet envoie
+	//  dispose d'une connexion allumee.
 
-  addParticipants(p: GroupAccount): Bluebird.Thenable<Discussion>;
-  //  Ajoute les membres de "p" a la discussion courante.
-  //  Ces participants peuvent aussi bien etre un groupe
-  //  (deja existants ou non) qu'une personne seule.
-  //  Si il existe deja un GroupAccount utilisant le meme
-  //  protocole, p sera ajoute a ce groupe.
+  addParticipants(p: Contact[]): Bluebird.Thenable<Discussion>;
+  //  Ajoute les membres de "p" a la Discussion courante.
+	//  Dans la mesure des possibilites offertes par le protocole
+	//  associe, les nouveaux participants ainsi que les anciens
+	//  seront notifies.
 
-  removeParticipants(contactAccount: ContactAccount): Bluebird.Thenable<Discussion>;
-  //  Enleve le participant "contactAccount" de la discussion
-  //  courante. Plus exactement, supprime "contactAccount" d'un
-  //  GroupAccount de this.participants et l'evince du groupe de
-  //  chat et de la conversation du cote du service (via un ConnectedApi).
-  //  A noter que si jamais "contactAccount" etait present
-  //  dans plusieurs GroupAccounts de this.participants, il ne
-  //  sera supprime qu'une seule fois.
+  removeParticipants(contacts: Contact[]): Bluebird.Thenable<Discussion>;
+  //  Enleve chaque Contact de "contacts" des membres de
+	//  la Discussion courante.
+	//  Si un des Contacts de "contacts" n'etait pas present
+	//  dans la Discussion courante, il sera ignore.
+	//  Dans la mesure des possibilites offertes par le protocole
+	//  associe, les participants exclus ainsi que ceux restant
+	//  seront notifies.
 
-  getParticipants(): Bluebird.Thenable<GroupAccount[]>;
+  getParticipants(): Bluebird.Thenable<Contact[]>;
   //  Retourne une liste des participants de la discussion courante.
 
-  getName(): Bluebird.Thenable<string>;
+  getName(): string;
   //  Retourne le nom de la discussion.
 
-  getDescription(): Bluebird.Thenable<string>;
+  getDescription(): string;
   //  Retourne une description de la discussion.
 
-  getSettings(): Bluebird.Thenable<Dictionary<any>>;
+  getSettings(): Dictionary<any>;
   //  Retourne tout les paramètres de la discussion, même spécifiques (map).
   //  Bien evidemment, nous ne pourrons pas tout traiter.
   //  Nous essayerons cependant de faire du mieux possible sans pour autant
