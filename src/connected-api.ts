@@ -2,6 +2,7 @@ import * as Bluebird from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Contact} from "./contact";
+import {UserAccount} from "./user-account";
 
 /***************************************************************
  * ConnectedApis are specific ways to connect to an account.
@@ -28,7 +29,7 @@ export interface ConnectedApi {
   //  Accede a la liste des contacts du compte "account",
   //  et les retourne sous forme de tableau de Contacts.
 
-  getDiscussions(max?: number, filter?: (discuss: Discussion) => boolean): Bluebird.Thenable<Discussion[]>;
+  getDiscussions(userAccount: UserAccount, max?: number, filter?: (discuss: Discussion) => boolean): Bluebird.Thenable<Discussion[]>;
   //  Accede a la liste des discussions du compte "account"
   //  et retourne jusqu'a "max" Discussions dans un tableau.
   //  Si filter est precise, ne retourne dans le tableau que les discussions
