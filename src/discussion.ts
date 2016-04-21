@@ -10,8 +10,6 @@ import {DiscussionAuthorization} from "./discussion-authorization";
  * It provides you methods to send a message, add and remove
  * participants, and so on.
  ***************************************************************/
-//  TODO : elvolve to another form of discussion, mono-protocol
-//         Probably merge with GroupAccount
 export interface Discussion {
 	protocol: string;               // Le protocole utilise par cette Discussion.
 
