@@ -37,25 +37,25 @@ export interface ConnectedApi {
   //  Si filter est precise, ne retourne dans le tableau que les discussions
   //  pour lesquelles la fonction "filter" retourne true.
 
-  addMembersToGroupChat(members: ContactAccount[], groupChat: GroupAccount, callback?: (err: Error) => any): void;
+  addMembersToGroupChat(members: ContactAccount[], groupChat: GroupAccount, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
   //  Ajoute les membres "members" au groupe de discussion "groupChat".
   //  Ceci ne se fait que du cote du service auquel le proxy courant
   //  a acces. "groupChat" ne sera donc en aucun cas modifie.
   //  Si au moins un des membres n'a pa pu etre ajoute, err sera non nul.
 
-  removeMembersFromGroupChat(members: ContactAccount[], groupChat: GroupAccount, callback?: (err: Error) => any): void;
+  removeMembersFromGroupChat(members: ContactAccount[], groupChat: GroupAccount, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
   //  Supprime les membres "members" du groupe de discussion "groupChat".
   //  Ceci ne se fait que du cote du service auquel le proxy courant
   //  a acces. "groupChat" ne sera donc en aucun cas modifie.
   //  Si au moins un des membres n'a pa pu etre supprime, err sera non nul.
 
-	leaveGroupChat(group: GroupAccount, callback: (err: Error) => any): void;
+	leaveGroupChat(group: GroupAccount, callback: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
 	//  Let the user leave the group chat "group".
 	//  The result is that hte user will not receive any message from this
 	//  group, unless he recreats it or accepts a new invitation
 	//  to rejoin it.
 
-  sendMessage(msg: Message, recipients: GroupAccount, callback?: (err: Error, succesM: Message) => any): void;
+  sendMessage(msg: Message, recipients: GroupAccount, callback?: (err: Error, succesM: Message) => any): Bluebird.Thenable<ConnectedApi>;
   //  Envoie le message "msg" aux destinataires "recipients".
   //  Il est a noter que le message sera envoye dans UNE SEULE
   //  conversation, sauf si le protocole ne supporte pas les groupes.
