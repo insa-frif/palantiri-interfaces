@@ -1,5 +1,4 @@
 import * as Bluebird from "bluebird";
-import {ConnectedApi} from "./connected-api";
 import {User} from "./user";
 
 /***************************************************************
