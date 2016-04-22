@@ -1,5 +1,5 @@
 import {Thenable} from "bluebird";
-import {Api} from "./connected-api";
+import {Api} from "./api";
 
 /***************************************************************
  * Connection represents a connection to a certain type of
@@ -23,6 +23,15 @@ export interface ConnectionConstructor<O, C extends Connection> {
 export interface Connection extends NodeJS.EventEmitter
 {
   /**
+   * To specify, returns an objects about the context of the connection (ie. which protocol is used)
+   */
+  getInfo(): any;
+
+  // isCompatibleWith(protocol: string): boolean;
+  // //  Retourne vrai si le protocole "protocol" est
+  // //  compatible avec cette Api.
+
+  /**
    * Returns a boolean if the connection is already established, false otherwise
    */
   isConnected(): boolean;
@@ -31,7 +40,7 @@ export interface Connection extends NodeJS.EventEmitter
    * Returns the Api if it is available.
    * If the Api is not available, it throws an error.
    */
-  getApi(): Api;
+  getApi?(): Api;
 
   /**
    * Connects to the service and once the connection is ready to be used, returns an Api object.
