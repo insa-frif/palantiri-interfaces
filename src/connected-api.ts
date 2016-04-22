@@ -17,7 +17,7 @@ import {UserAccount} from "./user-account";
  * they services offered by Proxies must edit these objects by
  * their own, depending of the result of Proxies methods calls.
  ***************************************************************/
-export interface ConnectedApi {
+export interface Api {
   protocol: string;       //  The protocol used by this api.
                           //  This depends of implementations.
 
@@ -35,25 +35,25 @@ export interface ConnectedApi {
   //  Si filter est precise, ne retourne dans le tableau que les discussions
   //  pour lesquelles la fonction "filter" retourne true.
 
-  addMembersToDiscussion(members: Contact[], discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
+  addMembersToDiscussion(members: Contact[], discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<Api>;
   //  Ajoute les membres "members" au groupe de discussion "groupChat".
   //  Ceci ne se fait que du cote du service auquel le proxy courant
   //  a acces. "groupChat" ne sera donc en aucun cas modifie.
   //  Si au moins un des membres n'a pa pu etre ajoute, err sera non nul.
 
-  removeMembersFromDiscussion(members: Contact[], discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
+  removeMembersFromDiscussion(members: Contact[], discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<Api>;
   //  Supprime les membres "members" du groupe de discussion "groupChat".
   //  Ceci ne se fait que du cote du service auquel le proxy courant
   //  a acces. "groupChat" ne sera donc en aucun cas modifie.
   //  Si au moins un des membres n'a pa pu etre supprime, err sera non nul.
 
-	leaveDiscussion(discussion: Discussion, callback: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
+	leaveDiscussion(discussion: Discussion, callback: (err: Error) => any): Bluebird.Thenable<Api>;
 	//  Let the user leave the group chat "group".
 	//  The result is that hte user will not receive any message from this
 	//  group, unless he recreats it or accepts a new invitation
 	//  to rejoin it.
 
-  sendMessage(msg: Message, discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<ConnectedApi>;
+  sendMessage(msg: Message, discussion: Discussion, callback?: (err: Error) => any): Bluebird.Thenable<Api>;
   //  Envoie le message "msg" dans la Discussion "discussion".
   //  Il est a noter que le message sera envoye individuellement
 	//  aux participants si le protocole ne supporte pas les groupes.
