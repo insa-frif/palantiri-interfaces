@@ -26,22 +26,29 @@ class FooConnection implements Connection {
 
 ## API
 
+This module defines the two interfaces with methods:
+
 ````typescript
 Connection;
-Contact;
-Discussion;
-DiscussionAuthorization;
-Message;
-MessageFlags;
-ConnectedApi;
-UserAccount;
-
-utils: {
-  Dictionary<T>;
-  NumericDictionary<T>;
-  Document;
-}
+Api;
 ````
+
+The other interfaces describe passive objects representing the data.
+
+````typescript
+Account;
+Discussion;
+Message;
+````
+
+This module also exports some constants.
+
+````typescript
+Connection.eventNames;
+Api.eventNames;
+Message.flags;
+````
+
 
 ## Development
 

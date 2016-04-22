@@ -62,7 +62,7 @@ export interface ConnectionConstructor<O, C extends Connection> {
   new(options?: O): C;
 }
 
-export namespace events {
+export namespace eventNames {
   const CONNECTED: string = "connected";
   const DISCONNECTED: string = "disconnected";
 }

@@ -90,7 +90,7 @@ export interface GetDiscussionsOptions {
  * all are the same one.
  ***************************************************************/
 
-export namespace events {
+export namespace eventNames {
   const EVENT: string = "event";
   const MESSAGE: string = "message";
   const MESSAGE_SENT: string = "message:sent";
