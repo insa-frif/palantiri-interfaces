@@ -49,7 +49,7 @@ export interface Connection extends NodeJS.EventEmitter {
   disconnect(): Thenable<this>;
 }
 
-export interface ConnectionConstructor<O, C extends Connection> {
+export interface Constructor<O, C extends Connection> {
   /**
    * Configure this connection, this is the only point where the interfaces change according to the protocol
    * @param options
@@ -57,16 +57,12 @@ export interface ConnectionConstructor<O, C extends Connection> {
   new(options?: O): C;
 }
 
-export namespace eventNames {
-
-}
-
 export namespace events {
-  const CONNECTED: string = "connected";
-  export type EventHandler = (event?: Connection) => any;
+  export const CONNECTED: string = "connected";
+  export type ConnectedHandler = (event?: Connection) => any;
 
-  const DISCONNECTED: string = "disconnected";
-  export type MessageHandler = (event?: Connection) => any;
+  export const DISCONNECTED: string = "disconnected";
+  export type DisconnectedHandler = (event?: Connection) => any;
 }
 
 export default Connection;

@@ -26,6 +26,8 @@ class FooConnection implements Connection {
 
 ## API
 
+### Content
+
 This module defines the two interfaces with methods:
 
 ````typescript
@@ -44,11 +46,17 @@ Message;
 This module also exports some constants.
 
 ````typescript
-Connection.eventNames;
-Api.eventNames;
+Connection.events;
+Api.events;
 Message.flags;
 ````
 
+### Usage
+
+A driver only needs to expose its Connection class.
+A user instantiates the Connection by providing some driver-specific configurations.
+Once the connection instance is created it can be passed to other parts of the application and can be used independently of the specific driver.
+To acquire an Api object, you have to use `connection.connect`.
 
 ## Development
 

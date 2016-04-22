@@ -1,4 +1,3 @@
-import * as Bluebird from "bluebird";
 import {Account} from "./account";
 
 /***************************************************************
@@ -9,13 +8,13 @@ import {Account} from "./account";
  * protocols will always be able to send something.
  ***************************************************************/
 export namespace flags {
-  const TEXT: number     = 0x0001;   //  The message contains text
-  const IMAGE: number    = 0x0002;   //  The message contains text
-  const VIDEO: number    = 0x0004;   //  The message contains text
-  const FILE: number     = 0x0008;   //  The message contains text
-  const URL: number      = 0x0010;   //  The message contains text
-  const EDITABLE: number = 0x0100;   //  The message contains text
-  const CAM: number      = 0x1000;   //  The message contains text
+  export const TEXT: number     = 0x0001;   //  The message contains text
+  export const IMAGE: number    = 0x0002;   //  The message contains text
+  export const VIDEO: number    = 0x0004;   //  The message contains text
+  export const FILE: number     = 0x0008;   //  The message contains text
+  export const URL: number      = 0x0010;   //  The message contains text
+  export const EDITABLE: number = 0x0100;   //  The message contains text
+  export const CAM: number      = 0x1000;   //  The message contains text
 }
 
 /***************************************************************
@@ -55,3 +54,5 @@ export interface Message {
    */
   lastUpdated: Date;
 }
+
+export default Message;

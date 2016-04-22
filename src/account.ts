@@ -29,3 +29,5 @@ export interface Account extends AccountToken {
 
   data: utils.Document;
 }
+
+export default Account;

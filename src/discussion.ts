@@ -102,3 +102,5 @@ export interface Discussion extends DiscussionToken {
   // //  Nous essayerons cependant de faire du mieux possible sans pour autant
   // //  y passer des heures entieres.
 }
+
+export default Discussion;

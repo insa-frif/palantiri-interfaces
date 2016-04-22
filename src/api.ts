@@ -2,7 +2,6 @@ import {Thenable} from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account} from "./account";
-import {DiscussionToken} from "./token";
 import {AccountId, DiscussionId} from "./id";
 
 /***************************************************************
@@ -95,22 +94,22 @@ export interface NewMessage {
  ***************************************************************/
 
 export namespace events {
-  const EVENT: string = "event";
+  export const EVENT: string = "event";
   export type EventHandler = (event?: any) => any;
 
-  const MESSAGE: string = "message";
+  export const MESSAGE: string = "message";
   export type MessageHandler = (event?: Message) => any;
 
-  const MESSAGE_SENT: string = "message:sent";
+  export const MESSAGE_SENT: string = "message:sent";
   export type MessageSentHandler = (event?: Message) => any;
 
-  const MESSAGE_RECEIVED: string = "message:received";
+  export const MESSAGE_RECEIVED: string = "message:received";
   export type MessageReceivedHandler = (event?: Message) => any;
 
-  const CONTACT_REQUEST: string = "contact:request";
+  export const CONTACT_REQUEST: string = "contact:request";
   export type ContactRequestHandler = (event?: Account) => any;
 
-  const DISCUSSION_RENAMED: string = "discussion:renamed";
+  export const DISCUSSION_RENAMED: string = "discussion:renamed";
   export type DiscussionRenamedHandler = (event?: Discussion) => any;
 }
 
