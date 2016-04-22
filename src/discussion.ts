@@ -2,8 +2,7 @@ import * as Bluebird from "bluebird";
 import {Account} from "./account";
 import {Message} from "./message";
 import {Dictionary} from "./utils";
-import {UserAccount} from "./user-account";
-import {DiscussionToken} from "./id";
+import {DiscussionToken} from "./token";
 
 /***************************************************************
  * DiscussionAuthorization represent all the right you can have
@@ -36,7 +35,7 @@ export interface Discussion extends DiscussionToken {
   participants: Account[];        // Liste des participants a la conversation.
                                   // L'utilisateur n'en fait pas partie.
 
-	owner: UserAccount;             // Le compte d'un utilisateur de palantiri qui
+	owner: Account;             // Le compte d'un utilisateur de palantiri qui
 																	// permet d'avoir acces a cette Discussion.
 
 	authorizations: Authorizations; // Les authorisation de owner

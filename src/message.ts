@@ -1,5 +1,4 @@
 import * as Bluebird from "bluebird";
-import {UserAccount} from "./user-account";
 import {Account} from "./account";
 
 /***************************************************************
@@ -25,7 +24,7 @@ export const MessageFlags = {
  * TextMessage, ImageMessage, VideoMessage...
  ***************************************************************/
 export interface Message {
-  author: Account | UserAccount;  // L'auteur du message.
+  author: Account;  // L'auteur du message.
                                   // Ce ne peut pas etre un objet de type
                                   // Contact. L'association entre ContactAccount
                                   // et Contact se fera plus tard, car peut
@@ -61,7 +60,7 @@ export interface Message {
   //  ce qui conduira peut-etre a supprimer cette methode
   //  de l'interface globale.
 
-  getAuthor(): Bluebird.Thenable<Account | UserAccount>;
+  getAuthor(): Bluebird.Thenable<Account>;
   //  Retourne l'auteur du message.
 
   getContent(): Bluebird.Thenable<any>;

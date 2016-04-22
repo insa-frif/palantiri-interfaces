@@ -2,8 +2,7 @@ import {Thenable} from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account} from "./account";
-import {UserAccount} from "./user-account";
-import {DiscussionToken} from "./id";
+import {DiscussionToken} from "./token";
 
 /***************************************************************
  * Api is the universal interface for communication. It is obtained
@@ -21,16 +20,17 @@ import {DiscussionToken} from "./id";
  * their own, depending of the result of Proxies methods calls.
  ***************************************************************/
 
-/**
- * Events:
- *  - event(any)
- *  - message(MessageEvent)
- */
 export interface Api extends NodeJS.EventEmitter {
   /**
    * Returns the list of the contacts of the current account
    */
   getContacts(options?: any): Thenable<Account[]>;
+
+  contactExists(account: Account): Thenable<boolean>;
+  //  Retourne vrai si et seulement si le contact "account"
+  //  peut etre accede a partir du compte courant.
+  //  Necessite que account.localID soit defini.
+  //  Necessite que la connectio soit etablie.
 
   /**
    * Returns the list of known discussions of the current account
@@ -80,6 +80,23 @@ export interface Api extends NodeJS.EventEmitter {
 export interface GetDiscussionsOptions {
   max?: number;
   predicate?: (discuss: Discussion) => boolean;
+}
+
+/***************************************************************
+ * Standard events are constants representing the basic events
+ * supported by the library.
+ * You can use them when you want to handle an event, so you
+ * won't be listening for several events names which in fact
+ * all are the same one.
+ ***************************************************************/
+
+export namespace events {
+  const EVENT: string = "event";
+  const MESSAGE: string = "message";
+  const MESSAGE_SENT: string = "message:sent";
+  const MESSAGE_RECEIVED: string = "message:received";
+  const CONTACT_REQUEST: string = "contact:request";
+  const DISCUSSION_RENAMED: string = "discussion:renamed";
 }
 
 export default Api;

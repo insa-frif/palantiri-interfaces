@@ -3,7 +3,6 @@ export {Account} from "./account";
 export {Discussion} from "./discussion";
 export {Message, MessageFlags} from "./message";
 export {Api} from "./api";
-export {UserAccount} from "./user-account";
 
 import * as utility from "./utils";
 
