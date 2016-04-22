@@ -94,11 +94,18 @@ export interface NewMessage {
  ***************************************************************/
 
 export namespace events {
+  // TODO: every event-object should implement {type: string}
+
   export const EVENT: string = "event";
   export type EventHandler = (event?: any) => any;
 
   export const MESSAGE: string = "message";
-  export type MessageHandler = (event?: Message) => any;
+  export interface MessageEvent {
+    type: "message";
+    message: Message;
+    discussion: Discussion;
+  }
+  export type MessageHandler = (event?: MessageEvent) => any;
 
   export const MESSAGE_SENT: string = "message:sent";
   export type MessageSentHandler = (event?: Message) => any;

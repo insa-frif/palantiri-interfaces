@@ -4,12 +4,13 @@ export type Account = account.Account;
 import * as api from "./api";
 export type Api = api.Api;
 export namespace Api {
-  export type GetDiscussionOptions = api.GetDiscussionsOptions;
+  export type GetDiscussionsOptions = api.GetDiscussionsOptions;
   export type NewMessage = api.NewMessage;
   export namespace events {
     export const EVENT = api.events.EVENT;
     export type EventHandler = api.events.EventHandler;
     export const MESSAGE = api.events.MESSAGE;
+    export type MessageEvent = api.events.MessageEvent;
     export type MessageHandler = api.events.MessageHandler;
     export const MESSAGE_SENT = api.events.MESSAGE_SENT;
     export type MessageSentHandler = api.events.MessageSentHandler;
