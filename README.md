@@ -1,29 +1,39 @@
+[![npm](https://img.shields.io/npm/v/palantiri-interfaces.svg?maxAge=2592000)](https://www.npmjs.com/package/palantiri-interfaces)
+
 # Palantiri-interfaces
 
 ## Description
 
-This module defines the main interfaces used by the Palantiri lib.
+The aim of this module is to propose some common interface in order to use any communication protocol.
+As long as a driver implements these interfaces, the consumer module should not have to change its code.
 
-## Install
+## Usage
 
 ````bash
-npm install
-gulp build.node
+# Install the module
+npm install --save palantiri-interfaces
+# Use the definitions
+typings install -S npm:palantiri-interfaces
+````
+
+````typescript
+import {Connection, Message} from "palantiri-interfaces";
+
+class FooConnection implements Connection {
+  // ...
+}
 ````
 
 ## API
 
 ````typescript
-App;
 Connection;
 Contact;
-ContactAccount;
 Discussion;
 DiscussionAuthorization;
-GroupAccount;
 Message;
-Proxy;
-User;
+MessageFlags;
+ConnectedApi;
 UserAccount;
 
 utils: {
@@ -31,4 +41,16 @@ utils: {
   NumericDictionary<T>;
   Document;
 }
+````
+
+## Development
+
+If you want to help, fork this repository and clone it. Then, use:
+````bash
+# Install npm dependencies and dev-dependencies
+npm install
+# Install definitions for Typescript
+typings install
+# Build the interfaces
+gulp build.node
 ````
