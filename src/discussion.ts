@@ -1,7 +1,5 @@
-import * as Bluebird from "bluebird";
 import {Account} from "./account";
-import {Message} from "./message";
-import {Dictionary} from "./utils";
+import * as utils from "./utils";
 import {DiscussionToken} from "./token";
 
 /***************************************************************
@@ -23,28 +21,45 @@ export interface Authorizations {
  * participants, and so on.
  ***************************************************************/
 export interface Discussion extends DiscussionToken {
-  creationDate: Date;             // Date de creation de la conversation
+  /**
+   * Date de creation de la conversation
+   */
+  creationDate: Date;
 
-  name: string;                   // Nom de la conversation.
+  /**
+   * A human-readable name
+   */
+  name: string;
 
-  description: string;            // Une description brève de la discussion,
-                                  // sous forme textuelle.
+  /**
+   * A short text description
+   */
+  description: string;
 
-  isPrivate: boolean;             // Privacite de la conversation.
+  /**
+   * Whether or not this discussion requires an invitation to join it
+   */
+  isPrivate: boolean;
 
-  participants: Account[];        // Liste des participants a la conversation.
-                                  // L'utilisateur n'en fait pas partie.
+  /**
+   * The list of participants - without the current user
+   */
+  participants: Account[];
 
-	owner: Account;             // Le compte d'un utilisateur de palantiri qui
-																	// permet d'avoir acces a cette Discussion.
+  /**
+   * The eventual owner of the discussion
+   */
+	owner: Account;
 
-	authorizations: Authorizations; // Les authorisation de owner
-																	// vis-a-vis de cette Discussion.
+  /**
+   * The authorizations of the current account with the discussion
+   */
+	authorizations: Authorizations;
 
-  settings: Dictionary<any>;      // La liste des autres parametres de la discussion,
-		                              // meme specifiques.
-		                              // Cela permet aux implementations de travailler
-																	// avec plus de donnees.
+  /**
+   * Some driver-specific data
+   */
+  settings: utils.Document;
 
   // isCompatibleWith(protocol: string): boolean;
   // //  Retourne vrai si le protocole "protocol" est
