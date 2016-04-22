@@ -12,16 +12,12 @@ import {Api} from "./api";
  * create a new module, they must develop an new Connection too.
  ***************************************************************/
 
-export interface ConnectionConstructor<O, C extends Connection> {
-  /**
-   * Configure this connection, this is the only point where the interfaces change according to the protocol
-   * @param options
-   */
-  new(options?: O): C;
-}
-
-export interface Connection extends NodeJS.EventEmitter
-{
+/**
+ * Events:
+ *  - connected(Connection)
+ *  - disconnect(Connection)
+ */
+export interface Connection extends NodeJS.EventEmitter {
   /**
    * To specify, returns an objects about the context of the connection (ie. which protocol is used)
    */
@@ -56,10 +52,14 @@ export interface Connection extends NodeJS.EventEmitter
    * Returns the connection itself
    */
   disconnect(): Thenable<this>;
-
-
-  // EVENTS
-
-  // connected
-  // disconnected
 }
+
+export interface ConnectionConstructor<O, C extends Connection> {
+  /**
+   * Configure this connection, this is the only point where the interfaces change according to the protocol
+   * @param options
+   */
+  new(options?: O): C;
+}
+
+export default Connection;

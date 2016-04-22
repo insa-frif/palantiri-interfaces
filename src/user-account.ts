@@ -2,7 +2,7 @@ import * as Bluebird from "bluebird";
 import {Connection} from "./connection";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
-import {Contact} from "./contact";
+import {Account} from "./account";
 import {Dictionary} from "./utils";
 
 /***************************************************************
@@ -31,11 +31,11 @@ export interface UserAccount {
                           //  Permet aux implementations de travailler avec
                           //  plus de details.
 
-  getContacts(): Bluebird.Thenable<Contact[]>;
+  getContacts(): Bluebird.Thenable<Account[]>;
   //  Accede a la liste des contacts du compte courant,
   //  et les retourne sous forme de tableau de contacts.
 
-  hasContactAccount(account: Contact): Bluebird.Thenable<boolean>;
+  hasContactAccount(account: Account): Bluebird.Thenable<boolean>;
   //  Retourne vrai si et seulement si le contact "account"
   //  peut etre accede a partir du compte courant.
   //  Necessite que account.localID soit defini.

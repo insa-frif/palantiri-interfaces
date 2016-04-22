@@ -6,7 +6,7 @@ import * as Bluebird from "bluebird";
  * with him. Other participants could be added through the
  * interface Discussion.
  ***************************************************************/
-export interface Contact {
+export interface Account {
 	fullname: string;     //  Le nom complet du contact.
 
 	protocol: string;     //  Le protocole associe a ce compte.
@@ -23,7 +23,7 @@ export interface Contact {
   getFullname(): string;
   //  Retourne la valeur du champ fullname.
 
-  setFullname(newPrincipalName: string): Bluebird.Thenable<Contact>;
+  setFullname(newPrincipalName: string): Bluebird.Thenable<Account>;
   //  Met a jour le champ "fullname" du contact courant.
   //  Ne modifie pas nicknames.
 }

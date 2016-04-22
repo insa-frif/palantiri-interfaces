@@ -1,6 +1,6 @@
 import * as Bluebird from "bluebird";
 import {UserAccount} from "./user-account";
-import {Contact} from "./contact";
+import {Account} from "./account";
 
 /***************************************************************
  * MessageFlags constants are flags that are used to help us sending
@@ -25,11 +25,11 @@ export const MessageFlags = {
  * TextMessage, ImageMessage, VideoMessage...
  ***************************************************************/
 export interface Message {
-  author: Contact | UserAccount;  // L'auteur du message.
-	                                // Ce ne peut pas etre un objet de type
-	                                // Contact. L'association entre ContactAccount
-	                                // et Contact se fera plus tard, car peut
-	                                // dependre de l'utilisateur.
+  author: Account | UserAccount;  // L'auteur du message.
+                                  // Ce ne peut pas etre un objet de type
+                                  // Contact. L'association entre ContactAccount
+                                  // et Contact se fera plus tard, car peut
+                                  // dependre de l'utilisateur.
 
   body: string;         // Une representation sous forme de string
                         // du message.
@@ -61,7 +61,7 @@ export interface Message {
   //  ce qui conduira peut-etre a supprimer cette methode
   //  de l'interface globale.
 
-  getAuthor(): Bluebird.Thenable<Contact | UserAccount>;
+  getAuthor(): Bluebird.Thenable<Account | UserAccount>;
   //  Retourne l'auteur du message.
 
   getContent(): Bluebird.Thenable<any>;

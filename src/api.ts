@@ -1,8 +1,9 @@
 import {Thenable} from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
-import {Contact} from "./contact";
+import {Account} from "./account";
 import {UserAccount} from "./user-account";
+import {DiscussionToken} from "./id";
 
 /***************************************************************
  * Api is the universal interface for communication. It is obtained
@@ -20,25 +21,24 @@ import {UserAccount} from "./user-account";
  * their own, depending of the result of Proxies methods calls.
  ***************************************************************/
 
-export interface GetDiscussionsOptions {
-  max?: number;
-  predicate?: (discuss: Discussion) => boolean;
-}
-
-export interface Api {
+/**
+ * Events:
+ *  - event(any)
+ *  - message(MessageEvent)
+ */
+export interface Api extends NodeJS.EventEmitter {
   /**
    * Returns the list of the contacts of the current account
    */
-  getContacts(options?: any): Thenable<Contact[]>;
+  getContacts(options?: any): Thenable<Account[]>;
 
   /**
    * Returns the list of known discussions of the current account
-   * @param userAccount
    * @param options
    *  - max: number -> allows to limit the number of discussions
    *  - predicate: Function -> allows to filter the discussions
    */
-  getDiscussions(userAccount: UserAccount, options?: GetDiscussionsOptions): Thenable<Discussion[]>;
+  getDiscussions(options?: GetDiscussionsOptions): Thenable<Discussion[]>;
 
   /**
    * Invite the following members to the discussion.
@@ -47,7 +47,7 @@ export interface Api {
    * @param discussion
    * @param callback
    */
-  addMembersToDiscussion(members: Contact[], discussion: Discussion, options?: any): Thenable<this>;
+  addMembersToDiscussion(members: Account[], discussion: DiscussionToken, options?: any): Thenable<this>;
 
   /**
    * Removes the following members from the discussion.
@@ -56,7 +56,7 @@ export interface Api {
    * @param discussion
    * @param callback
    */
-  removeMembersFromDiscussion(members: Contact[], discussion: Discussion, options?: any): Thenable<this>;
+  removeMembersFromDiscussion(members: Account[], discussion: DiscussionToken, options?: any): Thenable<this>;
 
   /**
    * The result is that the user will not receive any message from this
@@ -65,7 +65,7 @@ export interface Api {
    * @param discussion
    * @param callback
    */
-	leaveDiscussion(discussion: Discussion, options?: any): Thenable<Api>;
+	leaveDiscussion(discussion: DiscussionToken, options?: any): Thenable<Api>;
 
 
   /**
@@ -74,5 +74,12 @@ export interface Api {
    * @param discussion
    * @param callback
    */
-  sendMessage(msg: Message, discussion: Discussion, options?: any): Thenable<Api>;
+  sendMessage(msg: Message, discussion: DiscussionToken, options?: any): Thenable<Api>;
 }
+
+export interface GetDiscussionsOptions {
+  max?: number;
+  predicate?: (discuss: Discussion) => boolean;
+}
+
+export default Api;

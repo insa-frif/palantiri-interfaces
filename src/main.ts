@@ -1,7 +1,6 @@
 export {Connection} from "./connection";
-export {Contact} from "./contact";
+export {Account} from "./account";
 export {Discussion} from "./discussion";
-export {DiscussionAuthorization} from "./discussion-authorization";
 export {Message, MessageFlags} from "./message";
 export {Api} from "./api";
 export {UserAccount} from "./user-account";
