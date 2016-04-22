@@ -3,6 +3,7 @@ import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account} from "./account";
 import {DiscussionToken} from "./token";
+import {AccountId, DiscussionId} from "./id";
 
 /***************************************************************
  * Api is the universal interface for communication. It is obtained
@@ -47,7 +48,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-  addMembersToDiscussion(members: Account[], discussion: DiscussionToken, options?: any): Thenable<this>;
+  addMembersToDiscussion(members: AccountId[], discussion: DiscussionId, options?: any): Thenable<this>;
 
   /**
    * Removes the following members from the discussion.
@@ -56,7 +57,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-  removeMembersFromDiscussion(members: Account[], discussion: DiscussionToken, options?: any): Thenable<this>;
+  removeMembersFromDiscussion(members: AccountId[], discussion: DiscussionId, options?: any): Thenable<this>;
 
   /**
    * The result is that the user will not receive any message from this
@@ -65,16 +66,15 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-	leaveDiscussion(discussion: DiscussionToken, options?: any): Thenable<Api>;
-
-
+	leaveDiscussion(discussion: DiscussionId, options?: any): Thenable<Api>;
+  
   /**
    * Send the message msg to the discussion.
    * @param msg
    * @param discussion
    * @param callback
    */
-  sendMessage(msg: Message, discussion: DiscussionToken, options?: any): Thenable<Api>;
+  sendMessage(msg: Message, discussion: DiscussionId, options?: any): Thenable<Api>;
 }
 
 export interface GetDiscussionsOptions {
@@ -90,13 +90,24 @@ export interface GetDiscussionsOptions {
  * all are the same one.
  ***************************************************************/
 
-export namespace eventNames {
+export namespace events {
   const EVENT: string = "event";
+  export type EventHandler = (event?: any) => any;
+  
   const MESSAGE: string = "message";
+  export type MessageHandler = (event?: Message) => any;
+  
   const MESSAGE_SENT: string = "message:sent";
+  export type MessageSentHandler = (event?: Message) => any;
+  
   const MESSAGE_RECEIVED: string = "message:received";
+  export type MessageReceivedHandler = (event?: Message) => any;
+  
   const CONTACT_REQUEST: string = "contact:request";
+  export type ContactRequestHandler = (event?: Account) => any;
+  
   const DISCUSSION_RENAMED: string = "discussion:renamed";
+  export type DiscussionRenamedHandler = (event?: Discussion) => any;
 }
 
 export default Api;

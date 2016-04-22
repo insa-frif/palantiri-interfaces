@@ -1,7 +1,7 @@
 export {Connection} from "./connection";
 export {Account} from "./account";
 export {Discussion} from "./discussion";
-export {Message, MessageFlags} from "./message";
+export {Message} from "./message";
 export {Api} from "./api";
 
 import * as utility from "./utils";

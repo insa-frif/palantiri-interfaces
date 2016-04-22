@@ -12,11 +12,6 @@ import {Api} from "./api";
  * create a new module, they must develop an new Connection too.
  ***************************************************************/
 
-/**
- * Events:
- *  - connected(Connection)
- *  - disconnect(Connection)
- */
 export interface Connection extends NodeJS.EventEmitter {
   /**
    * To specify, returns an objects about the context of the connection (ie. which protocol is used)
@@ -63,8 +58,15 @@ export interface ConnectionConstructor<O, C extends Connection> {
 }
 
 export namespace eventNames {
+
+}
+
+export namespace events {
   const CONNECTED: string = "connected";
+  export type EventHandler = (event?: Connection) => any;
+
   const DISCONNECTED: string = "disconnected";
+  export type MessageHandler = (event?: Connection) => any;
 }
 
 export default Connection;
