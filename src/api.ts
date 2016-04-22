@@ -67,19 +67,23 @@ export interface Api extends NodeJS.EventEmitter {
    * @param callback
    */
 	leaveDiscussion(discussion: DiscussionId, options?: any): Thenable<Api>;
-  
+
   /**
    * Send the message msg to the discussion.
    * @param msg
    * @param discussion
    * @param callback
    */
-  sendMessage(msg: Message, discussion: DiscussionId, options?: any): Thenable<Api>;
+  sendMessage(msg: NewMessage, discussion: DiscussionId, options?: any): Thenable<Api>;
 }
 
 export interface GetDiscussionsOptions {
   max?: number;
   predicate?: (discuss: Discussion) => boolean;
+}
+
+export interface NewMessage {
+  body: string;
 }
 
 /***************************************************************
@@ -93,19 +97,19 @@ export interface GetDiscussionsOptions {
 export namespace events {
   const EVENT: string = "event";
   export type EventHandler = (event?: any) => any;
-  
+
   const MESSAGE: string = "message";
   export type MessageHandler = (event?: Message) => any;
-  
+
   const MESSAGE_SENT: string = "message:sent";
   export type MessageSentHandler = (event?: Message) => any;
-  
+
   const MESSAGE_RECEIVED: string = "message:received";
   export type MessageReceivedHandler = (event?: Message) => any;
-  
+
   const CONTACT_REQUEST: string = "contact:request";
   export type ContactRequestHandler = (event?: Account) => any;
-  
+
   const DISCUSSION_RENAMED: string = "discussion:renamed";
   export type DiscussionRenamedHandler = (event?: Discussion) => any;
 }
