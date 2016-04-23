@@ -9,18 +9,16 @@ import {Account} from "./account";
  ***************************************************************/
 export namespace flags {
   export const TEXT: number     = 0x0001;   //  The message contains text
-  export const IMAGE: number    = 0x0002;   //  The message contains text
-  export const VIDEO: number    = 0x0004;   //  The message contains text
-  export const FILE: number     = 0x0008;   //  The message contains text
-  export const URL: number      = 0x0010;   //  The message contains text
-  export const EDITABLE: number = 0x0100;   //  The message contains text
-  export const CAM: number      = 0x1000;   //  The message contains text
+  export const IMAGE: number    = 0x0002;   //  The message contains an image
+  export const VIDEO: number    = 0x0004;   //  The message contains a video
+  export const FILE: number     = 0x0008;   //  The message contains other file(s)
+  export const URL: number      = 0x0010;   //  The message contains an URL
+  export const EDITABLE: number = 0x0100;   //  The message is editable
+  export const CAM: number      = 0x1000;   //  The message is a cam chat
 }
 
 /***************************************************************
  * Message is the object exchanged during a Discussion.
- * Examples of classes which can inherit from Message are :
- * TextMessage, ImageMessage, VideoMessage...
  ***************************************************************/
 export interface Message {
   /**
@@ -43,7 +41,7 @@ export interface Message {
   /**
    * The flags of the message
    */
-  flags: number;        // Les flags du message.
+  flags: number;
 
   /**
    * The date of the creation of the message
