@@ -1,5 +1,6 @@
 import * as account from "./account";
 export type Account = account.Account;
+export type UserAccount = account.UserAccount;
 
 import * as api from "./api";
 export type Api = api.Api;

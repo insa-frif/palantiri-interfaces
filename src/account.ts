@@ -7,6 +7,15 @@ import * as utils from "./utils";
  * with him. Other participants could be added through the
  * interface Discussion.
  ***************************************************************/
+export interface Account extends AccountToken {
+  /**
+   * A human-readable name
+   */
+  name: string;
+
+  data: utils.Document;
+}
+
 /***************************************************************
  * UserAccount represente one account used by an user of
  * Omni-Chat. This user can use several accounts at the same
@@ -21,13 +30,9 @@ import * as utils from "./utils";
  * available. Therefore, when creating a new module, devs must
  * also create a new UserAccount too.
  ***************************************************************/
-export interface Account extends AccountToken {
-  /**
-   * A human-readable name
-   */
-  name: string;
 
-  data: utils.Document;
+export interface UserAccount extends Account {
+  
 }
 
 export default Account;
