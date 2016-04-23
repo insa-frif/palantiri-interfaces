@@ -78,7 +78,7 @@ export interface Api extends NodeJS.EventEmitter {
 
 export interface GetDiscussionsOptions {
   max?: number;
-  predicate?: (discuss: Discussion) => boolean;
+  filter?: (discuss: Discussion) => boolean;
 }
 
 export interface NewMessage {

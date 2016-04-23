@@ -1,5 +1,4 @@
 import {Account} from "./account";
-import * as utils from "./utils";
 import {DiscussionToken} from "./token";
 
 /***************************************************************
