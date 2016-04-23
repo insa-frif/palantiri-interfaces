@@ -1,8 +1,9 @@
 import {Account} from "./account";
+import {UserAccount} from "./account";
 import {DiscussionToken} from "./token";
 
 /***************************************************************
- * DiscussionAuthorization represent all the right you can have
+ * Authorization represent all the right you can have
  * in a discussion.
  ***************************************************************/
 export interface Authorizations {
@@ -46,9 +47,9 @@ export interface Discussion extends DiscussionToken {
   participants: Account[];
 
   /**
-   * The eventual owner of the discussion
+   * The palantiri user which use the current discussion
    */
-	owner: Account;
+	owner: UserAccount;
 
   /**
    * The authorizations of the current account with the discussion
