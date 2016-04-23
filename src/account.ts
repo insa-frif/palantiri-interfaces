@@ -13,7 +13,10 @@ export interface Account extends AccountToken {
    */
   name: string;
 
-  data: utils.Document;
+  /**
+   * An untyped field reserved for driver-specific data
+   */
+  driverData: any;
 }
 
 /***************************************************************
@@ -32,7 +35,7 @@ export interface Account extends AccountToken {
  ***************************************************************/
 
 export interface UserAccount extends Account {
-  
+
 }
 
 export default Account;

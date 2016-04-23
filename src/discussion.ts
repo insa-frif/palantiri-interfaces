@@ -57,9 +57,9 @@ export interface Discussion extends DiscussionToken {
 	authorizations: Authorizations;
 
   /**
-   * Some driver-specific data
+   * An untyped field reserved for driver-specific data
    */
-  settings: utils.Document;
+  driverData: any;
 
   // isCompatibleWith(protocol: string): boolean;
   // //  Retourne vrai si le protocole "protocol" est

@@ -34,7 +34,8 @@ export interface Message {
   body: string;
 
   /**
-   * A driver-specific content.
+   * TODO: specify better what is a content
+   * A rich content (attachment, pictures, video, etc.)
    * If the message is a simple text message, content is the same as body
    */
   content: any;
@@ -53,6 +54,11 @@ export interface Message {
    * The date of the last update of the message
    */
   lastUpdated: Date;
+
+  /**
+   * An untyped field reserved for driver-specific data
+   */
+  driverData: any;
 }
 
 export default Message;
