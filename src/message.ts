@@ -1,9 +1,9 @@
 import {Account} from "./account";
 
 /***************************************************************
- * MessageFlags constants are flags that are used to help us sending
- * messages with different protocols (with ConnectedApis).
- * Whatever the messages content, text will always be send,
+ * Message.flags constants are flags that are used to help us
+ * sending messages with different protocols (with ConnectedApis).
+ * Whatever the messages contain, text will always be send,
  * even if the message does not contain any text. So every
  * protocols will always be able to send something.
  ***************************************************************/

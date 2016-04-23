@@ -5,8 +5,8 @@ import {Account} from "./account";
 import {AccountId, DiscussionId} from "./id";
 
 /***************************************************************
- * Api is the universal interface for communication. It is obtained
- * by creating a connection.
+ * Api is the universal interface for communication.
+ * It is obtained by creating a connection.
  * It does hide the implementation details: for example,
  * sending a message to someone using IRC won't be
  * done the same way than to someone using facebook.
@@ -14,10 +14,11 @@ import {AccountId, DiscussionId} from "./id";
  * to communicate with other accounts) devs must create a new
  * ConnectedApi too.
  * Note that ConnectedApis only act in the side of the service
- * theyv have access to. This means that it will not modify any
+ * they have access to. This means that it will not modify any
  * object that are used as overlayer elsewhere. People calling
- * they services offered by Proxies must edit these objects by
- * their own, depending of the result of Proxies methods calls.
+ * they services offered by ConnectedApiss must edit these
+ * objects by their own, depending of the result of ConectedApi
+ * methods calls.
  ***************************************************************/
 
 export interface Api extends NodeJS.EventEmitter {
