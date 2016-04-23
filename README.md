@@ -17,12 +17,23 @@ typings install -S npm:palantiri-interfaces
 ````
 
 ````typescript
-import {Connection, Message} from "palantiri-interfaces";
+import {Connection, ConnectedApi} from "palantiri-interfaces";
+import {UserAccount} from "palantiri";
 
 class FooConnection implements Connection {
   // ...
 }
+class FooConnectedApi implements ConnectedApi {
+  // ...
+}
+class FooUserAccount extends UserAccount {
+  getOrCreateConnection(...) {
+    // ...
+  }
+}
 ````
+
+And that's it. Palantiri will then be able to work with your module.
 
 ## API
 
