@@ -39,6 +39,7 @@ The other interfaces describe passive objects representing the data.
 
 ````typescript
 Account;
+UserAccount;
 Discussion;
 Message;
 ````
@@ -53,10 +54,12 @@ Message.flags;
 
 ### Usage
 
-A driver only needs to expose its Connection class.
+A driver only needs to expose its Connection constructor.
 A user instantiates the Connection by providing some driver-specific configurations.
 Once the connection instance is created it can be passed to other parts of the application and can be used independently of the specific driver.
 To acquire an Api object, you have to use `connection.connect`.
+The Api is the entry-point to use a Palantiri-driver, it emits high-level events and accepts commands.
+The Api accepts and returns only simple container objects.
 
 ## Development
 
