@@ -1,7 +1,7 @@
 import {Thenable} from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
-import {Account} from "./account";
+import {Account, UserAccount} from "./account";
 import {AccountId, DiscussionId} from "./id";
 
 /***************************************************************
@@ -23,6 +23,11 @@ import {AccountId, DiscussionId} from "./id";
 
 export interface Api extends NodeJS.EventEmitter {
   /**
+   * Returns the currently connected user associated with this instance of Api.
+   */
+  getCurrentUser(): Thenable<UserAccount>;
+
+  /**
    * Returns the list of the contacts of the current account
    */
   getContacts(options?: any): Thenable<Account[]>;
@@ -37,7 +42,7 @@ export interface Api extends NodeJS.EventEmitter {
    * Returns the list of known discussions of the current account
    * @param options
    *  - max: number -> allows to limit the number of discussions
-   *  - predicate: Function -> allows to filter the discussions
+   *  - filter: Function -> allows to filter the discussions
    */
   getDiscussions(options?: GetDiscussionsOptions): Thenable<Discussion[]>;
 
@@ -102,9 +107,9 @@ export namespace events {
 
   export const MESSAGE: string = "message";
   export interface MessageEvent {
-    type: "message";
+    type: string; // "message";
     message: Message;
-    discussion: Discussion;
+    discussionId: DiscussionId;
   }
   export type MessageHandler = (event?: MessageEvent) => any;
 
