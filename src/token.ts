@@ -1,20 +1,15 @@
-import {MessageId, DiscussionId, AccountId} from "./id";
-
-export interface AccountToken {
-  id: AccountId;
+/**
+ * A Token is a pair between a driver and an id
+ * This value identifies this discussion/account/message uniquely.
+ * A driver should retrieve the same object if he gets the same id.
+ */
+export interface Token {
+  id: string;
   driver: string;
 }
 
-export interface DiscussionToken {
-  /**
-   * This value identifies this discussion uniquely.
-   * A driver should retrieve the same discussion if he gets the same id.
-   */
-  id: DiscussionId;
-  driver: string;
-}
+export type AccountToken = Token;
 
-export interface MessageToken {
-  id: MessageId;
-  driver: string;
-}
+export type DiscussionToken = Token;
+
+export type MessageToken = Token;

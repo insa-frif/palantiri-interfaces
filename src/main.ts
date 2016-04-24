@@ -58,7 +58,7 @@ export namespace Message {
   }
 }
 
-export {AccountToken, DiscussionToken, MessageToken} from "./token";
+export {Token, AccountToken, DiscussionToken, MessageToken} from "./token";
 
 import * as utils from "./utils";
 export namespace utils {

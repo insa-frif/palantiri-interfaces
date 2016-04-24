@@ -13,6 +13,8 @@ import {Api} from "./api";
  ***************************************************************/
 
 export interface Connection extends NodeJS.EventEmitter {
+  driver: string;
+
   /**
    * To specify, returns an objects about the context of the connection (ie. which protocol is used)
    */
@@ -50,6 +52,8 @@ export interface Connection extends NodeJS.EventEmitter {
 }
 
 export interface Constructor<O, C extends Connection> {
+  driver: string;
+
   /**
    * Configure this connection, this is the only point where the interfaces change according to the protocol
    * @param options
