@@ -79,7 +79,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-  sendMessage(msg: NewMessage, discussion: DiscussionId, options?: any): Thenable<Api>;
+  sendMessage(msg: NewMessage, discussion: DiscussionId, options?: any): Thenable<Message>;
 }
 
 export interface GetDiscussionsOptions {

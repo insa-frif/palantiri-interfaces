@@ -1,5 +1,5 @@
 import {Account} from "./account";
-import {MessageToken} from "./token";
+import {MessageToken, AccountToken} from "./token";
 
 /***************************************************************
  * Message.flags constants are flags that are used to help us
@@ -25,7 +25,7 @@ export interface Message extends MessageToken {
   /**
    * The name of the person who emitted the message
    */
-  author: Account;
+  author: AccountToken;
 
   /**
    * The textual representation of the content of the message
