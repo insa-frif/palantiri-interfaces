@@ -1,6 +1,6 @@
 import {Account} from "./account";
 import {UserAccount} from "./account";
-import {DiscussionIdentity} from "./global-token";
+import {DiscussionReference} from "./id";
 
 /***************************************************************
  * Authorization represent all the right you can have
@@ -20,7 +20,7 @@ export interface Authorizations {
  * It provides you methods to send a message, add and remove
  * participants, and so on.
  ***************************************************************/
-export interface Discussion extends DiscussionIdentity {
+export interface Discussion extends DiscussionReference {
   /**
    * Date de creation de la conversation
    */

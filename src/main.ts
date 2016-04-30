@@ -58,7 +58,7 @@ export namespace Message {
   }
 }
 
-export {GlobalIdentity, AccountIdentity, DiscussionIdentity, MessageIdentity} from "./global-token";
+export {ParsedId, AccountReference, DiscussionReference, MessageReference} from "./id";
 
 import * as utils from "./utils";
 export namespace utils {
