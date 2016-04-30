@@ -1,5 +1,5 @@
 import {Account} from "./account";
-import {MessageReference, AccountReference} from "./id";
+import {MessageReference, AccountReference} from "./global-id";
 
 /***************************************************************
  * Message.flags constants are flags that are used to help us

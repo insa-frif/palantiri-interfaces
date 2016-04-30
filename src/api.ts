@@ -2,8 +2,8 @@ import {Thenable} from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account, UserAccount} from "./account";
-import {AccountId, DiscussionId} from "./id";
-import {AccountReference, AccountGlobalId} from "./id";
+import {AccountId, DiscussionId} from "./global-id";
+import {AccountReference, AccountGlobalId} from "./global-id";
 
 /***************************************************************
  * Api is the universal interface for communication.

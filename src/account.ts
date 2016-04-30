@@ -1,4 +1,4 @@
-import {AccountReference} from "./id";
+import {AccountReference} from "./global-id";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Connection} from "./connection";

@@ -56,7 +56,7 @@ export function stringify(parsedId: ParsedId): GlobalId {
  * @param arg
  * @returns {ParsedId}
  */
-export function coerceAsIdentity(arg: ParsedId | GlobalId): ParsedId {
+export function coerceAsParsedId (arg: ParsedId | GlobalId): ParsedId {
   return typeof arg === "string" ? parse(<GlobalId> arg) : <ParsedId> arg;
 }
 
@@ -65,6 +65,6 @@ export function coerceAsIdentity(arg: ParsedId | GlobalId): ParsedId {
  * @param arg
  * @returns {string|GlobalId}
  */
-export function coerceAsToken(arg: ParsedId | GlobalId): GlobalId {
+export function coerceAsGlobalId (arg: ParsedId | GlobalId): GlobalId {
   return typeof arg === "string" ? arg : stringify(<ParsedId> arg);
 }

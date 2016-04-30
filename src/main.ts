@@ -42,7 +42,25 @@ export namespace Discussion {
   export type Authorizations = discussion.Authorizations;
 }
 
-export {AccountId, DiscussionId, MessageId} from "./id";
+import * as globalId from "./global-id";
+export type Id = globalId.Id;
+export type ParsedId = globalId.ParsedId;
+export type GlobalId = globalId.GlobalId;
+export type AccountId = globalId.AccountId;
+export type AccountReference = globalId.AccountReference;
+export type AccountGlobalId = globalId.AccountGlobalId;
+export type DiscussionId = globalId.DiscussionId;
+export type DiscussionReference = globalId.DiscussionReference;
+export type DiscussionGlobalId = globalId.DiscussionGlobalId;
+export type MessageId = globalId.MessageId;
+export type MessageReference = globalId.MessageReference;
+export type MessageGlobalId = globalId.MessageGlobalId;
+export namespace GlobalId {
+  export let parse = globalId.parse;
+  export let stringify = globalId.stringify;
+  export let coerceAsParsedId = globalId.coerceAsParsedId;
+  export let coerceAsGlobalId = globalId.coerceAsGlobalId;
+}
 
 import * as message from "./message";
 export type Message = message.Message;
@@ -57,8 +75,6 @@ export namespace Message {
     export const CAM = message.flags.CAM;
   }
 }
-
-export {ParsedId, AccountReference, DiscussionReference, MessageReference} from "./id";
 
 import * as utils from "./utils";
 export namespace utils {
