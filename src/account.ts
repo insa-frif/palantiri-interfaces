@@ -1,4 +1,4 @@
-import {AccountToken} from "./token";
+import {AccountIdentity} from "./global-token";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Connection} from "./connection";
@@ -10,7 +10,12 @@ import * as Bluebird from "bluebird";
  * with him. Other participants could be added through the
  * interface Discussion.
  ***************************************************************/
-export interface Account extends AccountToken {
+export interface Account extends AccountIdentity {
+  /**
+   * An url to the avatar image of the user
+   */
+  avatarUrl: string;
+
   /**
    * A human-readable name
    */

@@ -3,6 +3,7 @@ import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account, UserAccount} from "./account";
 import {AccountId, DiscussionId} from "./id";
+import {AccountIdentity, AccountToken} from "./global-token";
 
 /***************************************************************
  * Api is the universal interface for communication.
@@ -31,6 +32,11 @@ export interface Api extends NodeJS.EventEmitter {
    * Returns the list of the contacts of the current account
    */
   getContacts(options?: any): Thenable<Account[]>;
+
+  /**
+   * Returns the available information about the supplied account
+   */
+  getAccountInfo(account: AccountIdentity | AccountToken): Thenable<Account>;
 
   contactExists(account: Account): Thenable<boolean>;
   //  Retourne vrai si et seulement si le contact "account"

@@ -1,5 +1,5 @@
 import {Account} from "./account";
-import {MessageToken, AccountToken} from "./token";
+import {MessageIdentity, AccountIdentity} from "./global-token";
 
 /***************************************************************
  * Message.flags constants are flags that are used to help us
@@ -21,11 +21,11 @@ export namespace flags {
 /***************************************************************
  * Message is the object exchanged during a Discussion.
  ***************************************************************/
-export interface Message extends MessageToken {
+export interface Message extends MessageIdentity {
   /**
    * The name of the person who emitted the message
    */
-  author: AccountToken;
+  author: AccountIdentity;
 
   /**
    * The textual representation of the content of the message
