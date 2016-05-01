@@ -2,8 +2,7 @@ import {Thenable} from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account, UserAccount} from "./account";
-import {AccountInternalId, DiscussionInternalId} from "./id";
-import {AccountReference, AccountGlobalId} from "./id";
+import {AccountReference, AccountGlobalId, DiscussionReference, DiscussionGlobalId} from "./id";
 
 /***************************************************************
  * Api is the universal interface for communication.
@@ -13,20 +12,28 @@ import {AccountReference, AccountGlobalId} from "./id";
  * done the same way than to someone using facebook.
  * This imply that creating a new module (i.e to allow palantir
  * to communicate with other accounts) devs must create a new
- * ConnectedApi too.
- * Note that ConnectedApis only act in the side of the service
+ * Api too.
+ * Note that Apis only act in the side of the service
  * they have access to. This means that it will not modify any
  * object that are used as overlayer elsewhere. People calling
- * they services offered by ConnectedApiss must edit these
- * objects by their own, depending of the result of ConectedApi
+ * they services offered by Api must edit these
+ * objects by their own, depending of the result of Api
  * methods calls.
  ***************************************************************/
 
 export interface Api extends NodeJS.EventEmitter {
   /**
-   * Returns the currently connected user associated with this instance of Api.
+   * Invite the following members to the discussion.
+   * If at least one member cannot be invited, it will throw an error
+   * @param members
+   * @param discussion
    */
-  getCurrentUser(): Thenable<UserAccount>;
+  addMembersToDiscussion(members: Array<AccountReference | AccountGlobalId>, discussion: DiscussionReference | DiscussionGlobalId, options?: any): Thenable<this>;
+
+  /**
+   * Returns the available information about the supplied account
+   */
+  getAccount(account: AccountReference | AccountGlobalId, options?: any): Thenable<Account>;
 
   /**
    * Returns the list of the contacts of the current account
@@ -34,63 +41,70 @@ export interface Api extends NodeJS.EventEmitter {
   getContacts(options?: any): Thenable<Account[]>;
 
   /**
-   * Returns the available information about the supplied account
+   * Returns the currently connected user associated with this instance of Api.
    */
-  getAccountInfo(account: AccountReference | AccountGlobalId): Thenable<Account>;
-
-  contactExists(account: Account): Thenable<boolean>;
-  //  Retourne vrai si et seulement si le contact "account"
-  //  peut etre accede a partir du compte courant.
-  //  Necessite que account.localID soit defini.
-  //  Necessite que la connectio soit etablie.
+  getCurrentUser(options?: any): Thenable<UserAccount>;
 
   /**
    * Returns the list of known discussions of the current account
    * @param options
-   *  - max: number -> allows to limit the number of discussions
-   *  - filter: Function -> allows to filter the discussions
    */
   getDiscussions(options?: GetDiscussionsOptions): Thenable<Discussion[]>;
 
   /**
-   * Invite the following members to the discussion.
-   * If at least one member cannot be invited, it will throw an error
-   * @param members
+   * Returns the messages from a given discussion
    * @param discussion
-   * @param callback
    */
-  addMembersToDiscussion(members: AccountInternalId[], discussion: DiscussionInternalId, options?: any): Thenable<this>;
-
-  /**
-   * Removes the following members from the discussion.
-   * If at least one member cannot be removed, it will throw an error.
-   * @param members
-   * @param discussion
-   * @param callback
-   */
-  removeMembersFromDiscussion(members: AccountInternalId[], discussion: DiscussionInternalId, options?: any): Thenable<this>;
+  getMessagesFromDiscussion(discussion: DiscussionReference | DiscussionGlobalId, options?: GetMessagesFromDiscussionOptions): Thenable<Message[]>;
 
   /**
    * The result is that the user will not receive any message from this
    * discussion, unless he joins it again
    * to rejoin it.
    * @param discussion
-   * @param callback
    */
-	leaveDiscussion(discussion: DiscussionInternalId, options?: any): Thenable<Api>;
+  leaveDiscussion(discussion: DiscussionReference | DiscussionGlobalId, options?: any): Thenable<Api>;
+
+  /**
+   * Removes the following members from the discussion.
+   * If at least one member cannot be removed, it will throw an error.
+   * @param members
+   * @param discussion
+   */
+  removeMembersFromDiscussion(members: Array<AccountReference | AccountGlobalId>, discussion: DiscussionReference | DiscussionGlobalId, options?: any): Thenable<this>;
 
   /**
    * Send the message msg to the discussion.
-   * @param msg
+   * @param newMessage
    * @param discussion
-   * @param callback
    */
-  sendMessage(msg: NewMessage, discussion: DiscussionInternalId, options?: any): Thenable<Message>;
+  sendMessage(newMessage: NewMessage, discussion: DiscussionReference | DiscussionGlobalId, options?: any): Thenable<Message>;
 }
 
 export interface GetDiscussionsOptions {
+  /**
+   * The result array will have a length lesser or equal to max
+   */
   max?: number;
-  filter?: (discuss: Discussion) => boolean;
+
+  /**
+   * Applies the supplied predicate on each discussion. If the filter returns false, the discussion is discarded.
+   * @param discussion
+   */
+  filter?: (discussion: Discussion) => boolean;
+}
+
+export interface GetMessagesFromDiscussionOptions {
+  /**
+   * The result array will have a length lesser or equal to max
+   */
+  max?: number;
+
+  /**
+   * Applies the supplied predicate on each message. If the filter returns false, the message is discarded.
+   * @param message
+   */
+  filter?: (message: Message) => boolean;
 }
 
 export interface NewMessage {
@@ -115,7 +129,7 @@ export namespace events {
   export interface MessageEvent {
     type: string; // "message";
     message: Message;
-    discussionId: DiscussionInternalId;
+    discussionGlobalId: DiscussionGlobalId;
   }
   export type MessageHandler = (event?: MessageEvent) => any;
 

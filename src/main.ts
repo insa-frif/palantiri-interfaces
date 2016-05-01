@@ -6,6 +6,7 @@ import * as api from "./api";
 export type Api = api.Api;
 export namespace Api {
   export type GetDiscussionsOptions = api.GetDiscussionsOptions;
+  export type GetMessagesFromDiscussionOptions = api.GetMessagesFromDiscussionOptions;
   export type NewMessage = api.NewMessage;
   export namespace events {
     export const EVENT = api.events.EVENT;
@@ -44,7 +45,8 @@ export namespace Discussion {
 
 import * as id from "./id";
 export type InternalId = id.InternalId;
-export type ParsedId = id.ParsedId;
+export type Reference = id.Reference;
+export type GlobalReference = id.Reference; // alias of Reference
 export type GlobalId = id.GlobalId;
 export type AccountInternalId = id.AccountInternalId;
 export type AccountReference = id.AccountReference;
@@ -55,11 +57,11 @@ export type DiscussionGlobalId = id.DiscussionGlobalId;
 export type MessageInternalId = id.MessageInternalId;
 export type MessageReference = id.MessageReference;
 export type MessageGlobalId = id.MessageGlobalId;
-export namespace GlobalId {
-  export let parse = id.parse;
-  export let stringify = id.stringify;
-  export let coerceAsParsedId = id.coerceAsParsedId;
-  export let coerceAsGlobalId = id.coerceAsGlobalId;
+export namespace Id {
+  export let parseGlobal = id.parseGlobal;
+  export let stringifyReference = id.stringifyReference;
+  export let asReference = id.asReference;
+  export let asGlobalId = id.asGlobalId;
 }
 
 import * as message from "./message";

@@ -4,68 +4,93 @@
 export type InternalId = string;
 
 /**
- * A ParsedId is a pair between a driver name and a driver-specific id
+ * A Reference is a pair between a driver name and a driver-specific id
  * This value identifies this discussion/account/message uniquely across all the users and drivers.
  * A driver should retrieve the same object if he gets the same id.
  */
-export interface ParsedId {
+export interface Reference {
   driverName: string;
   id: InternalId;
 }
 
 /**
- * A GlobalId is a serialized ParsedId.
+ * A GlobalId is a serialized Reference.
  * It is obtained as:
  * token = JSON.stringify([identity.driverName, identity.id]);
  */
 export type GlobalId = string;
 
 export type AccountInternalId = InternalId;
-export type AccountReference = ParsedId;
+export type AccountReference = Reference;
 export type AccountGlobalId = GlobalId;
 
 export type DiscussionInternalId = InternalId;
-export type DiscussionReference = ParsedId;
+export type DiscussionReference = Reference;
 export type DiscussionGlobalId = GlobalId;
 
 export type MessageInternalId = InternalId;
-export type MessageReference = ParsedId;
+export type MessageReference = Reference;
 export type MessageGlobalId = GlobalId;
 
 // TODO: this should be moved to the `palantiri` package: this package here should only contain interfaces
 /**
- * Parses a globalId and returns a global ParsedId
+ * Parses a globalId and returns a global Reference
  * @param globalId
- * @returns {ParsedId}
+ * @returns {Reference}
  */
-export function parse(globalId: GlobalId): ParsedId {
+export function parseGlobal(globalId: GlobalId): Reference {
   let parsed: [string, string] = JSON.parse(globalId);
   return parsed === null ? null : {driverName: parsed[0], id: parsed[1]};
 }
 
 /**
- * Stringifies a global ParsedId to its globalId
+ * Stringifies a global Reference to its globalId
  * @param parsedId
  * @returns {GlobalId}
  */
-export function stringify(parsedId: ParsedId): GlobalId {
+export function stringifyReference(parsedId: Reference): GlobalId {
   return parsedId === null ? null : JSON.stringify([parsedId.driverName, parsedId.id]);
 }
 
 /**
- * Normalizes the argument to a ParsedId
+ * Normalizes the argument to a Reference
  * @param arg
- * @returns {ParsedId}
+ * @param driverName
+ * @returns {Reference}
  */
-export function coerceAsParsedId (arg: ParsedId | GlobalId): ParsedId {
-  return typeof arg === "string" ? parse(<GlobalId> arg) : <ParsedId> arg;
+export function asReference (arg: Reference | GlobalId, driverName: string = null): Reference {
+  if (arg === null) {
+    throw new Error("null Reference");
+  }
+
+  let ref: Reference;
+  if (typeof  arg === "string") {
+    ref = parseGlobal(<GlobalId> arg);
+  } else {
+    ref = <Reference> arg;
+  }
+
+  if (driverName !== null && ref.driverName !== driverName) {
+    throw new Error("Reference object does not have the required driverName");
+  }
+
+  return ref;
 }
 
 /**
  * Normalizes the argument to a GlobalId
  * @param arg
- * @returns {string|GlobalId}
+ * @returns {string}
  */
-export function coerceAsGlobalId (arg: ParsedId | GlobalId): GlobalId {
-  return typeof arg === "string" ? arg : stringify(<ParsedId> arg);
+export function asGlobalId (arg: Reference | GlobalId): GlobalId {
+  if (arg === null) {
+    throw new Error("null global id");
+  }
+  // TODO: test drivername as in "asReference" ?
+  if (typeof  arg === "string") {
+    // TODO: arg.indexOf(`[${JSON.stringify(driverName)},`) === 0 ?
+    return arg;
+  } else {
+    return stringifyReference(<Reference> arg);
+  }
 }

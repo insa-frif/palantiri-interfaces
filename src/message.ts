@@ -19,7 +19,7 @@ export namespace flags {
 }
 
 /***************************************************************
- * Message is the object exchanged during a Discussion.
+ * Message represent some content sent between participants of a Discussion.
  ***************************************************************/
 export interface Message extends MessageReference {
   /**
