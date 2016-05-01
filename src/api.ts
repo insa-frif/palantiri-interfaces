@@ -2,8 +2,8 @@ import {Thenable} from "bluebird";
 import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account, UserAccount} from "./account";
-import {AccountId, DiscussionId} from "./global-id";
-import {AccountReference, AccountGlobalId} from "./global-id";
+import {AccountInternalId, DiscussionInternalId} from "./id";
+import {AccountReference, AccountGlobalId} from "./id";
 
 /***************************************************************
  * Api is the universal interface for communication.
@@ -59,7 +59,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-  addMembersToDiscussion(members: AccountId[], discussion: DiscussionId, options?: any): Thenable<this>;
+  addMembersToDiscussion(members: AccountInternalId[], discussion: DiscussionInternalId, options?: any): Thenable<this>;
 
   /**
    * Removes the following members from the discussion.
@@ -68,7 +68,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-  removeMembersFromDiscussion(members: AccountId[], discussion: DiscussionId, options?: any): Thenable<this>;
+  removeMembersFromDiscussion(members: AccountInternalId[], discussion: DiscussionInternalId, options?: any): Thenable<this>;
 
   /**
    * The result is that the user will not receive any message from this
@@ -77,7 +77,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-	leaveDiscussion(discussion: DiscussionId, options?: any): Thenable<Api>;
+	leaveDiscussion(discussion: DiscussionInternalId, options?: any): Thenable<Api>;
 
   /**
    * Send the message msg to the discussion.
@@ -85,7 +85,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    * @param callback
    */
-  sendMessage(msg: NewMessage, discussion: DiscussionId, options?: any): Thenable<Message>;
+  sendMessage(msg: NewMessage, discussion: DiscussionInternalId, options?: any): Thenable<Message>;
 }
 
 export interface GetDiscussionsOptions {
@@ -115,7 +115,7 @@ export namespace events {
   export interface MessageEvent {
     type: string; // "message";
     message: Message;
-    discussionId: DiscussionId;
+    discussionId: DiscussionInternalId;
   }
   export type MessageHandler = (event?: MessageEvent) => any;
 

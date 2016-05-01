@@ -1,6 +1,6 @@
 import {Account} from "./account";
 import {UserAccount} from "./account";
-import {DiscussionReference} from "./global-id";
+import {DiscussionReference} from "./id";
 
 /***************************************************************
  * Authorization represent all the right you can have

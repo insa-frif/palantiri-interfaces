@@ -1,7 +1,7 @@
 /**
- * Represents a local id
+ * Represents a driver-specific id.
  */
-export type Id = string;
+export type InternalId = string;
 
 /**
  * A ParsedId is a pair between a driver name and a driver-specific id
@@ -10,7 +10,7 @@ export type Id = string;
  */
 export interface ParsedId {
   driverName: string;
-  id: Id;
+  id: InternalId;
 }
 
 /**
@@ -20,18 +20,19 @@ export interface ParsedId {
  */
 export type GlobalId = string;
 
-export type AccountId = Id;
+export type AccountInternalId = InternalId;
 export type AccountReference = ParsedId;
 export type AccountGlobalId = GlobalId;
 
-export type DiscussionId = Id;
+export type DiscussionInternalId = InternalId;
 export type DiscussionReference = ParsedId;
 export type DiscussionGlobalId = GlobalId;
 
-export type MessageId = Id;
+export type MessageInternalId = InternalId;
 export type MessageReference = ParsedId;
 export type MessageGlobalId = GlobalId;
 
+// TODO: this should be moved to the `palantiri` package: this package here should only contain interfaces
 /**
  * Parses a globalId and returns a global ParsedId
  * @param globalId

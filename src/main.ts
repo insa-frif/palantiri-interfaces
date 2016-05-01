@@ -42,24 +42,24 @@ export namespace Discussion {
   export type Authorizations = discussion.Authorizations;
 }
 
-import * as globalId from "./global-id";
-export type Id = globalId.Id;
-export type ParsedId = globalId.ParsedId;
-export type GlobalId = globalId.GlobalId;
-export type AccountId = globalId.AccountId;
-export type AccountReference = globalId.AccountReference;
-export type AccountGlobalId = globalId.AccountGlobalId;
-export type DiscussionId = globalId.DiscussionId;
-export type DiscussionReference = globalId.DiscussionReference;
-export type DiscussionGlobalId = globalId.DiscussionGlobalId;
-export type MessageId = globalId.MessageId;
-export type MessageReference = globalId.MessageReference;
-export type MessageGlobalId = globalId.MessageGlobalId;
+import * as id from "./id";
+export type InternalId = id.InternalId;
+export type ParsedId = id.ParsedId;
+export type GlobalId = id.GlobalId;
+export type AccountInternalId = id.AccountInternalId;
+export type AccountReference = id.AccountReference;
+export type AccountGlobalId = id.AccountGlobalId;
+export type DiscussionInternalId = id.DiscussionInternalId;
+export type DiscussionReference = id.DiscussionReference;
+export type DiscussionGlobalId = id.DiscussionGlobalId;
+export type MessageInternalId = id.MessageInternalId;
+export type MessageReference = id.MessageReference;
+export type MessageGlobalId = id.MessageGlobalId;
 export namespace GlobalId {
-  export let parse = globalId.parse;
-  export let stringify = globalId.stringify;
-  export let coerceAsParsedId = globalId.coerceAsParsedId;
-  export let coerceAsGlobalId = globalId.coerceAsGlobalId;
+  export let parse = id.parse;
+  export let stringify = id.stringify;
+  export let coerceAsParsedId = id.coerceAsParsedId;
+  export let coerceAsGlobalId = id.coerceAsGlobalId;
 }
 
 import * as message from "./message";
