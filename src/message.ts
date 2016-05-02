@@ -1,9 +1,8 @@
-import {Account} from "./account";
 import {MessageReference, AccountReference} from "./id";
 
 /***************************************************************
  * Message.flags constants are flags that are used to help us
- * sending messages with different protocols (with ConnectedApis).
+ * sending messages with different protocols (with Apis).
  * Whatever the messages contain, text will always be send,
  * even if the message does not contain any text. So every
  * protocols will always be able to send something.
@@ -19,7 +18,8 @@ export namespace flags {
 }
 
 /***************************************************************
- * Message represent some content sent between participants of a Discussion.
+ * Message represent some content sent between participants of
+ * a Discussion.
  ***************************************************************/
 export interface Message extends MessageReference {
   /**

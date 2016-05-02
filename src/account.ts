@@ -1,8 +1,4 @@
 import {AccountReference} from "./id";
-import {Discussion} from "./discussion";
-import {Message} from "./message";
-import {Connection} from "./connection";
-import * as Bluebird from "bluebird";
 
 /***************************************************************
  * Contact is the representation of someone you can chat with.

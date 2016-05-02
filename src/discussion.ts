@@ -47,7 +47,7 @@ export interface Discussion extends DiscussionReference {
   participants: Account[];
 
   /**
-   * The palantiri user which use the current discussion
+   * The palantiri user who use the current discussion
    */
 	owner: UserAccount;
 
