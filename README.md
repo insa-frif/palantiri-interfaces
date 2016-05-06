@@ -272,6 +272,9 @@ npm install
 typings install
 # Build the interfaces
 gulp build.node
+# Link it with other modules:
+gulp project.dist.node
+npm link
 ````
 
 ## Notes
