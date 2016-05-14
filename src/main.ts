@@ -5,6 +5,7 @@ export type UserAccount = account.UserAccount;
 import * as api from "./api";
 export type Api = api.Api;
 export namespace Api {
+  export type CreateDiscussionOptions = api.CreateDiscussionOptions;
   export type GetDiscussionsOptions = api.GetDiscussionsOptions;
   export type GetMessagesFromDiscussionOptions = api.GetMessagesFromDiscussionOptions;
   export type NewMessage = api.NewMessage;
