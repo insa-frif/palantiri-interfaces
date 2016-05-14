@@ -31,6 +31,13 @@ export interface Api extends NodeJS.EventEmitter {
   addMembersToDiscussion(members: Array<AccountReference | AccountGlobalId>, discussion: DiscussionReference | DiscussionGlobalId, options?: any): Thenable<this>;
 
   /**
+   * Attempts to create a new discussion with the supplied contacts and the localAccount (you can pass an empty array)
+   * @param contacts
+   * @param options
+   */
+  createDiscussion(contacts: Array<AccountReference | AccountGlobalId>, options: CreateDiscussionOptions): Thenable<Discussion>;
+
+  /**
    * Returns the available information about the supplied account
    */
   getAccount(account: AccountReference | AccountGlobalId, options?: any): Thenable<Account>;
@@ -79,6 +86,18 @@ export interface Api extends NodeJS.EventEmitter {
    * @param discussion
    */
   sendMessage(newMessage: NewMessage, discussion: DiscussionReference | DiscussionGlobalId, options?: any): Thenable<Message>;
+}
+
+export interface CreateDiscussionOptions {
+  /**
+   * Attempts to set the supplied name at creation
+   */
+  name?: string;
+
+  /**
+   * Attempts to set the supplied description at creation
+   */
+  description?: string;
 }
 
 export interface GetDiscussionsOptions {
