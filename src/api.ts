@@ -3,6 +3,7 @@ import {Discussion} from "./discussion";
 import {Message} from "./message";
 import {Account, UserAccount} from "./account";
 import {AccountReference, AccountGlobalId, DiscussionReference, DiscussionGlobalId} from "./id";
+import {PromiseOrValue} from "./utils";
 
 /***************************************************************
  * Api is the universal interface for communication.
@@ -110,7 +111,7 @@ export interface GetDiscussionsOptions {
    * Applies the supplied predicate on each discussion. If the filter returns false, the discussion is discarded.
    * @param discussion
    */
-  filter?: (discussion: Discussion) => boolean;
+  filter?: (discussion: Discussion) => PromiseOrValue<boolean>;
 }
 
 export interface GetMessagesFromDiscussionOptions {
@@ -123,7 +124,7 @@ export interface GetMessagesFromDiscussionOptions {
    * Applies the supplied predicate on each message. If the filter returns false, the message is discarded.
    * @param message
    */
-  filter?: (message: Message) => boolean;
+  filter?: (message: Message) => PromiseOrValue<boolean>;
 }
 
 export interface NewMessage {
