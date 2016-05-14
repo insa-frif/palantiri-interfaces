@@ -36,7 +36,7 @@ export interface Api extends NodeJS.EventEmitter {
    * @param contacts
    * @param options
    */
-  createDiscussion(contacts: Array<AccountReference | AccountGlobalId>, options: CreateDiscussionOptions): Thenable<Discussion>;
+  createDiscussion(contacts: Array<AccountReference | AccountGlobalId>, options?: CreateDiscussionOptions): Thenable<Discussion>;
 
   /**
    * Returns the available information about the supplied account
