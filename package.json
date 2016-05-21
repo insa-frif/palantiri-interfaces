@@ -1,6 +1,6 @@
 {
   "name": "palantiri-interfaces",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Palantiri interfaces",
   "main": "dist/node/main.js",
   "repository": {
