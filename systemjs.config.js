@@ -8,6 +8,7 @@ System.config({
   },
 
   map: {
+    "bluebird": "npm:bluebird@3.4.0",
     "lodash": "npm:lodash@4.11.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -23,6 +24,9 @@ System.config({
     },
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
+    },
+    "npm:bluebird@3.4.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:buffer@3.6.0": {
       "base64-js": "npm:base64-js@0.0.8",
