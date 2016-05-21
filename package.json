@@ -15,11 +15,15 @@
   ],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.2.1",
+    "lodash": "^4.0.0"
+  },
   "devDependencies": {
     "chai": "^3.4.1",
     "gulp": "^3.9.0",
-    "typescript": "^1.8.10",
-    "via-build-tools": "^0.8.2"
+    "typescript": "^1.9.0-dev.20160521-1.0",
+    "via-build-tools": "^0.9.0"
   },
   "jspm": {
     "configFile": "systemjs.config.js",
@@ -27,9 +31,5 @@
       "lodash": "npm:lodash@^4.0.0"
     },
     "devDependencies": {}
-  },
-  "dependencies": {
-    "bluebird": "^3.2.1",
-    "lodash": "^4.0.0"
   }
 }
